@@ -1,1 +1,1 @@
-# pos-app
+# Pos Application
