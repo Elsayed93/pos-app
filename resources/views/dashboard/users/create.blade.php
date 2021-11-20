@@ -39,9 +39,6 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6">
-
-
-
                             <!-- form start -->
                             <form>
                                 <div class="card-body">
