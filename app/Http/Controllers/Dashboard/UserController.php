@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -46,11 +47,15 @@ class UserController extends Controller
             'password' => 'required|confirmed',
         ]);
 
-        $user =  User::create($request->all());
+        $request_data = $request->except($request->password);
+
+        $request_data['password'] = Hash::make($request->password);
+
+        $user =  User::create($request_data);
         if ($user) {
-            return redirect()->route('dashboard.users.index')->with('success', __('User created successfully'));
+            return redirect()->route('dashboard.users.index')->with('success', __('site.added_successfully'));
         } else {
-            return redirect()->back()->with('error', __('User created Failed'));
+            return redirect()->back()->with('error', __('site.added_failed'));
         }
     }
 
