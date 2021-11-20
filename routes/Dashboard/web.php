@@ -12,7 +12,7 @@ Route::group(
             Route::view('/home', 'dashboard.welcome')->name('welcome');
 
             // users
-            Route::resource('users', UserController::class);
+            Route::resource('users', UserController::class)->except('show');
         });
     }
 );

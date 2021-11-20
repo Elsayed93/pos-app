@@ -27,17 +27,36 @@
 
                 <div class="box box-solid">
 
-                    <div class="box-header">
-                        <h3 class="box-title">
-                            <a href="{{ route('dashboard.users.create') }}" class="btn btn-primary">
-                                {{ __('users.create') }}
-                            </a>
-                        </h3>
+                    <div class="box-header with-border">
+                        <h3 class="box-title mb-3"> @lang('users.users') </h3>
+
+
+                        <form action="" style="margin-top:20px;">
+                            <div class="row mt-3">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" name="" id=""
+                                        placeholder="@lang('site.search')">
+
+                                </div>
+
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa fa-search"></i>
+                                        @lang('site.search')
+                                    </button>
+                                    <a href="{{ route('dashboard.users.create') }}" class="btn btn-primary">
+                                        <i class="fa fa-plus"></i>
+                                        @lang('users.create')
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+
                     </div>
-                    <div class="box-body border-radius-none">
+                    <div class="box-body border-radius-none" style="margin-top:20px;">
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table class="table table-bordered">
+                            <table class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th style="width: 10px">#</th>
@@ -52,7 +71,7 @@
                                         @foreach ($users as $index => $user)
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
-                                                <td>{{ $user->name }}</td>
+                                                <td>{{ $user->first_name . ' ' . $user->last_name }}</td>
                                                 <td>{{ $user->email }}</td>
                                                 <td>
                                                     <a href="#" class="btn btn-warning btn-sm" title="Edit">Edit</a>

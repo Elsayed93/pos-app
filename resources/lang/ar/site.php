@@ -2,4 +2,5 @@
 
 return [
     'dashboard' => 'الرئيسية',
+    'search' => 'بحث',
 ];

@@ -93,6 +93,9 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
+
+    @stack('head')
+
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -187,14 +190,14 @@
                                 <li>
                                     {{-- <!-- inner menu: contains the actual data --> --}}
                                     <ul class="menu">
-                                        {{-- @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                                        @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                                             <li>
                                                 <a rel="alternate" hreflang="{{ $localeCode }}"
                                                     href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
                                                     {{ $properties['native'] }}
                                                 </a>
                                             </li>
-                                        @endforeach --}}
+                                        @endforeach
                                     </ul>
                                 </li>
                             </ul>

@@ -2,4 +2,6 @@
 
 return [
     'dashboard' => 'Dashboard',
+    'search' => 'search',
+
 ];

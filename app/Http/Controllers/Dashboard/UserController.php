@@ -38,18 +38,20 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        // dd($request->all());
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required',
+            'password' => 'required|confirmed',
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $user =  User::create($request->all());
+        if ($user) {
+            return redirect()->route('dashboard.users.index')->with('success', __('User created successfully'));
+        } else {
+            return redirect()->back()->with('error', __('User created Failed'));
+        }
     }
 
     /**
