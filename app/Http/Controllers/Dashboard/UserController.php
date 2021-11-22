@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -46,6 +47,17 @@ class UserController extends Controller
             'email' => 'required',
             'password' => 'required|confirmed',
         ]);
+
+        // $validator = Validator::make($request->all(), [
+        //     'first_name' => 'required',
+        //     'last_name' => 'required',
+        //     'email' => 'required',
+        //     'password' => 'required|confirmed',
+        // ]);
+
+        // if ($validator->fails()) {
+        //     return redirect()->back()->with('error', $validator->errors());
+        // }
 
         $request_data = $request->except($request->password);
 

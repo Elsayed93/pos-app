@@ -16,15 +16,6 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        // DB::table('users')->delete();
-
-        // $admin = [
-        //     'name' => 'admin',
-        //     'email' => 'admin@example.com',
-        //     'password' => Hash::make('123456789'),
-        // ];
-
-        // DB::table('users')->insert($admin);
 
         $admin = User::create([
             'first_name' => 'super',
