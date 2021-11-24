@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -48,22 +47,19 @@ class UserController extends Controller
             'password' => 'required|confirmed',
         ]);
 
-        // $validator = Validator::make($request->all(), [
-        //     'first_name' => 'required',
-        //     'last_name' => 'required',
-        //     'email' => 'required',
-        //     'password' => 'required|confirmed',
-        // ]);
-
-        // if ($validator->fails()) {
-        //     return redirect()->back()->with('error', $validator->errors());
-        // }
-
-        $request_data = $request->except($request->password);
+        $request_data = $request->except(['password', 'password_confirmation', 'permissions']);
 
         $request_data['password'] = Hash::make($request->password);
 
+        // create a new user
         $user =  User::create($request_data);
+
+        // attach super_admin role to user
+        $user->attachRole('admin');
+
+        // attach permissions to user
+        $user->syncPermissions($request->permissions); // or $user->attachPermissions($request->permissions);
+
         if ($user) {
             return redirect()->route('dashboard.users.index')->with('success', __('site.added_successfully'));
         } else {

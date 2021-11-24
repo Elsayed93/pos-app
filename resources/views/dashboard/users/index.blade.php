@@ -1,7 +1,6 @@
 @extends('layouts.dashboard.app')
 
 @section('content')
-    {{-- {{dd($users)}} --}}
     <div class="content-wrapper">
 
         <section class="content-header">
@@ -17,13 +16,7 @@
 
         <section class="content">
 
-
-
-
             <div class="container-fluid">
-
-
-
 
                 <div class="box box-solid">
 
@@ -62,8 +55,9 @@
                                         <th style="width: 10px">#</th>
                                         <th>@lang('users.name')</th>
                                         <th>@lang('users.email')</th>
-                                        <th>@lang('users.action')</th>
-
+                                        @if (auth()->user()->isAbleTo('users-delete') || auth()->user()->isAbleTo('users-update'))
+                                            <th>@lang('users.action')</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -74,8 +68,15 @@
                                                 <td>{{ $user->first_name . ' ' . $user->last_name }}</td>
                                                 <td>{{ $user->email }}</td>
                                                 <td>
-                                                    <a href="#" class="btn btn-warning btn-sm" title="Edit">Edit</a>
-                                                    <a href="#" class="btn btn-danger btn-sm" title="Delete">Delete</a>
+                                                    @if (auth()->user()->isAbleTo('users-update'))
+                                                        <a href="#" class="btn btn-warning btn-sm"
+                                                            title="@lang('site.edit')">@lang('site.edit')</a>
+                                                    @endif
+                                                    @if (auth()->user()->isAbleTo('users-delete'))
+                                                        <a href="#" class="btn btn-danger btn-sm"
+                                                            title="@lang('site.delete')">@lang('site.delete')</a>
+
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

@@ -7,6 +7,11 @@
             border-radius: 5px;
         }
 
+        .tab-pane label {
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+
     </style>
 @endpush
 
@@ -84,25 +89,45 @@
                                 placeholder="@lang('users.Password Confirmation')" name="password_confirmation"
                                 value="{{ old('password_confirmation') }}">
                         </div>
-                        {{-- <div class="form-group">
-                                        <label for="exampleInputFile">File input</label>
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" id="exampleInputFile">
-                                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                            </div>
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">Upload</span>
-                                            </div>
+
+
+                        <div class="form-group">
+                            <label>@lang('site.permissions')</label>
+                            <div class="nav-tabs-custom">
+
+                                @php
+                                    $models = ['users', 'categories', 'products', 'clients', 'orders'];
+                                    $maps = ['create', 'read', 'update', 'delete'];
+                                @endphp
+
+                                <ul class="nav nav-tabs">
+                                    @foreach ($models as $index => $model)
+                                        <li class="{{ $index == 0 ? 'active' : '' }}"><a href="#{{ $model }}"
+                                                data-toggle="tab">@lang('site.' . $model)</a></li>
+                                    @endforeach
+                                </ul>
+
+                                <div class="tab-content">
+
+                                    @foreach ($models as $index => $model)
+
+                                        <div class="tab-pane {{ $index == 0 ? 'active' : '' }}"
+                                            id="{{ $model }}">
+
+                                            @foreach ($maps as $map)
+                                                <label><input type="checkbox" name="permissions[]"
+                                                        value="{{ $map . '_' . $model }}"> @lang('site.' . $map)</label>
+                                            @endforeach
+
                                         </div>
-                                    </div> --}}
 
-                        {{-- <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                                    </div> --}}
+                                    @endforeach
 
-                        <!-- /.card-body -->
+                                </div><!-- end of tab content -->
+
+                            </div><!-- end of nav tabs -->
+
+                        </div><!-- end of form-group -->
 
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">@lang('site.Submit')</button>

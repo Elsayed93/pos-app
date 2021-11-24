@@ -18,4 +18,7 @@ return [
     'Password' => 'كلمة المرور',
     'Password Confirmation' => 'تأكيد كلمة المرور',
 
+    'permissions' => 'الصلاحيات',
+
+
 ];

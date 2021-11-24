@@ -18,4 +18,6 @@ return [
     'Password' => 'Password',
     'Password Confirmation' => 'Password Confirmation',
 
+    'permissions' => 'permissions',
+
 ];

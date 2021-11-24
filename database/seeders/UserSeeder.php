@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -26,5 +27,6 @@ class UserSeeder extends Seeder
 
         //super_admin
         $admin->attachRole('super_admin');
+
     }
 }
