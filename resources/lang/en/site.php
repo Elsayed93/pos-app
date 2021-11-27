@@ -20,4 +20,12 @@ return [
     'permissions' => 'permissions',
 
     'Permission Denied' => 'Permission Denied',
+
+    'logout'=> 'logout',
+
+    'yes'=> 'yes',
+    'no'=> 'no',
+    'confirm_delete'=> 'confirm delete ?',
+
+
 ];

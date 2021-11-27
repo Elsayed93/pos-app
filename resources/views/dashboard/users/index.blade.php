@@ -8,6 +8,15 @@
             font-size: 20px;
         }
 
+
+        #totlaUsers {
+            background-color: #3c8dbc;
+            color: white;
+            padding: 1px 5px;
+            border-radius: 2px;
+            font-size: 13px;
+        }
+
     </style>
 @endpush
 
@@ -33,14 +42,17 @@
                 <div class="box box-solid">
 
                     <div class="box-header with-border">
-                        <h3 class="box-title mb-3"> @lang('users.users') </h3>
+                        <h3 class="box-title mb-3">
+                            @lang('users.users')
+                        </h3>
+                        <small id="totlaUsers">{{ $users->total() }}</small>
 
 
                         <form action="{{ route('dashboard.users.index') }}" method="GET" style="margin-top:20px;">
                             <div class="row mt-3">
                                 <div class="col-md-4">
                                     <input type="text" class="form-control" name="search"
-                                        placeholder="@lang('site.search')">
+                                        value="{{ request()->search }}" placeholder="@lang('site.search')">
 
                                 </div>
 
@@ -106,11 +118,18 @@
 
                                                     @endif
                                                     @if (auth()->user()->isAbleTo('users-delete'))
-                                                        <a href="#" class="btn btn-danger btn-sm"
-                                                            title="@lang('site.delete')">
-                                                            @lang('site.delete')
-                                                            <i class="fa fa-trash"></i>
-                                                        </a>
+
+                                                        <form action="{{ route('dashboard.users.destroy', $user->id) }}"
+                                                            method="post" id="deleteForm" style="display: inline-block;">
+                                                            @method('DELETE')
+                                                            @csrf
+
+                                                            <button type="submit" class="btn btn-danger btn-sm delete"
+                                                                title="@lang('site.delete')">
+                                                                @lang('site.delete')
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </form>
                                                     @else
 
                                                         <a href="#" class="btn btn-danger btn-sm" disabled
@@ -128,6 +147,8 @@
 
                                 </tbody>
                             </table>
+
+                            {{ $users->appends(request()->query())->links() }}
                         </div>
                         <!-- /.card-body -->
                     </div>

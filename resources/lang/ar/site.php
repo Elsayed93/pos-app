@@ -21,4 +21,11 @@ return [
 
     'Permission Denied' => 'غير مسموح',
 
+    'logout'=> 'تسجيل الخروج',
+
+    'yes'=> 'نعم',
+    'no'=> 'لا',
+    'confirm_delete'=> 'تأكيد الحذف ؟',
+
+
 ];
