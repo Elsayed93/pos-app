@@ -1,8 +1,10 @@
 <?php
 
 return [
-    'users' => 'Supervisors',
+    'users' => 'Users',
     'create' => 'Create User',
+    'edit' => 'Edit User',
+
     'name' => 'Name',
     'email' => 'Email',
     'action' => 'Action',

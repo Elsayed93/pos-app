@@ -83,6 +83,7 @@
                                 placeholder="@lang('users.Password')" name="password" value="{{ old('password') }}">
                         </div>
 
+                        {{-- confirm password --}}
                         <div class="form-group">
                             <label for="exampleInputPasswordConfirmation">@lang('users.Password Confirmation')</label>
                             <input type="password" class="form-control" id="exampleInputPasswordConfirmation"
@@ -91,6 +92,7 @@
                         </div>
 
 
+                        {{-- permissions --}}
                         <div class="form-group">
                             <label>@lang('site.permissions')</label>
                             <div class="nav-tabs-custom">
@@ -108,15 +110,15 @@
                                 </ul>
 
                                 <div class="tab-content">
-
                                     @foreach ($models as $index => $model)
-
                                         <div class="tab-pane {{ $index == 0 ? 'active' : '' }}"
                                             id="{{ $model }}">
 
                                             @foreach ($maps as $map)
                                                 <label><input type="checkbox" name="permissions[]"
-                                                        value="{{ $map . '_' . $model }}"> @lang('site.' . $map)</label>
+                                                        value="{{ $model . '-' . $map }}">
+                                                    @lang('site.' . $map)
+                                                </label>
                                             @endforeach
 
                                         </div>

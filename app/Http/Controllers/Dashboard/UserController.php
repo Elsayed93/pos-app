@@ -39,7 +39,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -63,6 +62,8 @@ class UserController extends Controller
         if ($user) {
             return redirect()->route('dashboard.users.index')->with('success', __('site.added_successfully'));
         } else {
+            dd('error store');
+
             return redirect()->back()->with('error', __('site.added_failed'));
         }
     }
@@ -73,9 +74,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        return view('dashboard.users.edit', compact('user'));
     }
 
     /**
@@ -85,9 +86,28 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required',
+        ]);
+
+        $request_data = $request->except(['permissions']);
+
+        // update user
+        $user->update($request_data);
+
+        // attach permissions to user
+        $user->syncPermissions($request->permissions); // or $user->attachPermissions($request->permissions);
+
+        if ($user) {
+            return redirect()->route('dashboard.users.index')->with('success', __('site.updated_successfully'));
+        } else {
+            return redirect()->back()->with('error', __('site.updated_failed'));
+        }
     }
 
     /**

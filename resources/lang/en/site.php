@@ -5,7 +5,7 @@ return [
     'search' => 'search',
 
     'added_successfully' => 'added successfully',
-    'edit_successfully' => 'edit successfully',
+    'updated_successfully' => 'updated successfully',
     'delete_successfully' => 'delete successfully',
 
     'Submit' => 'Submit',
@@ -17,5 +17,5 @@ return [
     'edit' => 'Edit',
 
     'users' => 'users',
-
+    'permissions' => 'permissions',
 ];

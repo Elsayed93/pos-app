@@ -37,10 +37,21 @@
                                         <i class="fa fa-search"></i>
                                         @lang('site.search')
                                     </button>
-                                    <a href="{{ route('dashboard.users.create') }}" class="btn btn-primary">
-                                        <i class="fa fa-plus"></i>
-                                        @lang('users.create')
-                                    </a>
+
+                                    @if (auth()->user()->isAbleTo('users-create'))
+                                        {{-- Create User --}}
+                                        <a href="{{ route('dashboard.users.create') }}" class="btn btn-primary">
+                                            <i class="fa fa-plus"></i>
+                                            @lang('users.create')
+                                        </a>
+
+                                    @else
+                                        <a href="#" class="btn btn-primary" aria-disabled="true" disabled>
+                                            <i class="fa fa-plus"></i>
+                                            @lang('users.create')
+                                        </a>
+                                    @endif
+
                                 </div>
                             </div>
                         </form>
@@ -55,9 +66,7 @@
                                         <th style="width: 10px">#</th>
                                         <th>@lang('users.name')</th>
                                         <th>@lang('users.email')</th>
-                                        @if (auth()->user()->isAbleTo('users-delete') || auth()->user()->isAbleTo('users-update'))
-                                            <th>@lang('users.action')</th>
-                                        @endif
+                                        <th>@lang('users.action')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -69,13 +78,34 @@
                                                 <td>{{ $user->email }}</td>
                                                 <td>
                                                     @if (auth()->user()->isAbleTo('users-update'))
-                                                        <a href="#" class="btn btn-warning btn-sm"
-                                                            title="@lang('site.edit')">@lang('site.edit')</a>
+                                                        <a href="{{ route('dashboard.users.edit', $user->id) }}"
+                                                            class="btn btn-warning btn-sm" title="@lang('site.edit')">
+                                                            @lang('site.edit')
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+
+                                                    @else
+
+                                                        <a href="#" class="btn btn-warning btn-sm" disabled
+                                                            title="@lang('site.edit')">
+                                                            @lang('site.edit')
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+
                                                     @endif
                                                     @if (auth()->user()->isAbleTo('users-delete'))
                                                         <a href="#" class="btn btn-danger btn-sm"
-                                                            title="@lang('site.delete')">@lang('site.delete')</a>
+                                                            title="@lang('site.delete')">
+                                                            @lang('site.delete')
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    @else
 
+                                                        <a href="#" class="btn btn-danger btn-sm" disabled
+                                                            title="@lang('site.delete')">
+                                                            @lang('site.delete')
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
                                                     @endif
                                                 </td>
                                             </tr>
