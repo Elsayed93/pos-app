@@ -1,5 +1,17 @@
 @extends('layouts.dashboard.app')
 
+@push('head')
+    <style>
+        #noUsers {
+            text-align: center;
+            padding-top: 25px;
+            font-size: 20px;
+        }
+
+    </style>
+@endpush
+
+
 @section('content')
     <div class="content-wrapper">
 
@@ -24,10 +36,10 @@
                         <h3 class="box-title mb-3"> @lang('users.users') </h3>
 
 
-                        <form action="" style="margin-top:20px;">
+                        <form action="{{ route('dashboard.users.index') }}" method="GET" style="margin-top:20px;">
                             <div class="row mt-3">
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control" name="" id=""
+                                    <input type="text" class="form-control" name="search"
                                         placeholder="@lang('site.search')">
 
                                 </div>
@@ -111,7 +123,7 @@
                                             </tr>
                                         @endforeach
                                     @else
-                                        <td colspan="4">There is no users.</td>
+                                        <td colspan="4" id="noUsers">@lang('users.There is no users.')</td>
                                     @endif
 
                                 </tbody>

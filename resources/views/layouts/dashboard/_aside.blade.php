@@ -8,7 +8,10 @@
                     alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+                {{-- <p>{{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</p> --}}
+                <p>{{ auth()->user()->getFullNameAttribute() }}</p>
+
+                {{-- getFullNameAttribute --}}
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>

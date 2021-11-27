@@ -6,7 +6,7 @@ return [
 
     'added_successfully' => 'added successfully',
     'updated_successfully' => 'updated successfully',
-    'delete_successfully' => 'delete successfully',
+    'deleted_successfully' => 'delete successfully',
 
     'Submit' => 'Submit',
 
@@ -18,4 +18,6 @@ return [
 
     'users' => 'users',
     'permissions' => 'permissions',
+
+    'Permission Denied' => 'Permission Denied',
 ];

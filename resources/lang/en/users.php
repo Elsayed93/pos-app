@@ -21,5 +21,5 @@ return [
     'Password Confirmation' => 'Password Confirmation',
 
     'permissions' => 'permissions',
-
+    'There is no users.' => 'There is no users.',
 ];

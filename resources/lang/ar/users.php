@@ -20,6 +20,7 @@ return [
     'Password Confirmation' => 'تأكيد كلمة المرور',
 
     'permissions' => 'الصلاحيات',
+    'There is no users.' => 'لا يوجد مستخدمين',
 
 
 ];

@@ -6,8 +6,8 @@ return [
 
     'added_successfully' => 'تم إضافة البيانات بنجاح',
     'updated_successfully' => 'تم تعديل البيانات بنجاح',
-    'delete_successfully' => 'تم مسح البيانات بنجاح',
-
+    'deleted_successfully' => 'تم مسح البيانات بنجاح',
+//
     'Submit' => 'حفظ',
 
     'edit' => 'تعديل',
@@ -18,5 +18,7 @@ return [
 
     'users' => 'المشرفون',
     'permissions' => 'الصلاحيات',
+
+    'Permission Denied' => 'غير مسموح',
 
 ];

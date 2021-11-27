@@ -14,11 +14,39 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
+        // if (auth()->user()->isAbleTo('users-read')) {
+        //     if ($request->search) {
 
-        return view('dashboard.users.index', compact('users'));
+        //         $users = User::where('first_name', 'like', '%' . $request->search . '%')
+        //             ->orWhere('last_name', 'like', '%' . $request->search . '%')
+        //             ->whereRoleIs('admin')
+        //             ->get();
+        //     } else {
+        //         $users = User::whereRoleIs('admin')->get();
+        //     }
+        //     //
+        //     return view('dashboard.users.index', compact('users'));
+        // } else {
+        //     return redirect()->back()->with('error', __('site.Permission Denied'));
+        // }
+
+
+        if (auth()->user()->isAbleTo('users-read')) {
+
+            $users = User::whereRoleIs('admin')->where(function ($q) use ($request) {
+                return $q->When($request->search, function ($query)  use ($request) {
+                    return $query->where('first_name', 'like', '%' . $request->search . '%')
+                        ->orWhere('last_name', 'like', '%' . $request->search . '%');
+                });
+            })->get();
+
+            //
+            return view('dashboard.users.index', compact('users'));
+        } else {
+            return redirect()->back()->with('error', __('site.Permission Denied'));
+        }
     }
 
     /**
@@ -28,7 +56,11 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('dashboard.users.create');
+        if (auth()->user()->isAbleTo('users-create')) {
+            return view('dashboard.users.create');
+        } else {
+            return redirect()->back()->with('error', __('site.Permission Denied'));
+        }
     }
 
     /**
@@ -39,32 +71,35 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required',
-            'password' => 'required|confirmed',
-        ]);
 
-        $request_data = $request->except(['password', 'password_confirmation', 'permissions']);
+        if (auth()->user()->isAbleTo('users-create')) {
+            $request->validate([
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required',
+                'password' => 'required|confirmed',
+            ]);
 
-        $request_data['password'] = Hash::make($request->password);
+            $request_data = $request->except(['password', 'password_confirmation', 'permissions']);
 
-        // create a new user
-        $user =  User::create($request_data);
+            $request_data['password'] = Hash::make($request->password);
 
-        // attach super_admin role to user
-        $user->attachRole('admin');
+            // create a new user
+            $user =  User::create($request_data);
 
-        // attach permissions to user
-        $user->syncPermissions($request->permissions); // or $user->attachPermissions($request->permissions);
+            // attach super_admin role to user
+            $user->attachRole('admin');
 
-        if ($user) {
-            return redirect()->route('dashboard.users.index')->with('success', __('site.added_successfully'));
+            // attach permissions to user
+            $user->syncPermissions($request->permissions); // or $user->attachPermissions($request->permissions);
+
+            if ($user) {
+                return redirect()->route('dashboard.users.index')->with('success', __('site.added_successfully'));
+            } else {
+                return redirect()->back()->with('error', __('site.added_failed'));
+            }
         } else {
-            dd('error store');
-
-            return redirect()->back()->with('error', __('site.added_failed'));
+            return redirect()->back()->with('error', __('site.Permission Denied'));
         }
     }
 
@@ -76,7 +111,12 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('dashboard.users.edit', compact('user'));
+
+        if (auth()->user()->isAbleTo('users-update')) {
+            return view('dashboard.users.edit', compact('user'));
+        } else {
+            return redirect()->back()->with('error', __('site.Permission Denied'));
+        }
     }
 
     /**
@@ -88,25 +128,28 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        if (auth()->user()->isAbleTo('users-update')) {
+            $request->validate([
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required',
+            ]);
 
-        $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required',
-        ]);
+            $request_data = $request->except(['permissions']);
 
-        $request_data = $request->except(['permissions']);
+            // update user
+            $user->update($request_data);
 
-        // update user
-        $user->update($request_data);
+            // attach permissions to user
+            $user->syncPermissions($request->permissions); // or $user->attachPermissions($request->permissions);
 
-        // attach permissions to user
-        $user->syncPermissions($request->permissions); // or $user->attachPermissions($request->permissions);
-
-        if ($user) {
-            return redirect()->route('dashboard.users.index')->with('success', __('site.updated_successfully'));
+            if ($user) {
+                return redirect()->route('dashboard.users.index')->with('success', __('site.updated_successfully'));
+            } else {
+                return redirect()->back()->with('error', __('site.updated_failed'));
+            }
         } else {
-            return redirect()->back()->with('error', __('site.updated_failed'));
+            return redirect()->back()->with('error', __('site.Permission Denied'));
         }
     }
 
@@ -116,8 +159,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        if (auth()->user()->isAbleTo('users-delete')) {
+            $user->delete();
+            return redirect()->route('dashboard.users.index')->with('success', __('site.deleted_successfully'));
+        } else {
+            return redirect()->back()->with('error', __('site.Permission Denied'));
+        }
     }
 }
