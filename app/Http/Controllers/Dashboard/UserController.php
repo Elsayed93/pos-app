@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -71,6 +73,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
+        // dd($request->image->hashName());
 
         if (auth()->user()->isAbleTo('users-create')) {
             $request->validate([
@@ -80,9 +84,22 @@ class UserController extends Controller
                 'password' => 'required|confirmed',
             ]);
 
-            $request_data = $request->except(['password', 'password_confirmation', 'permissions']);
+            $request_data = $request->except(['password', 'password_confirmation', 'permissions', 'image']);
 
             $request_data['password'] = Hash::make($request->password);
+
+            if ($request->has('image')) {
+                $img = Image::make($request->image)->resize(null, 200, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save(public_path('uploads/users_images/') . $request->image->hashName());
+            }
+
+            if ($request->image != null) {
+                $request_data['image'] = $request->image->hashName();
+            } else {
+
+                $request_data['image'] = 'default.jpg';
+            }
 
             // create a new user
             $user =  User::create($request_data);
@@ -161,7 +178,11 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        // dd($user->image != 'default.jpg');
         if (auth()->user()->isAbleTo('users-delete')) {
+            if ($user->image != 'default.jpg') {
+                Storage::disk('public_uploads')->delete('users_images/' . $user->image);
+            }
             $user->delete();
             return redirect()->route('dashboard.users.index')->with('success', __('site.deleted_successfully'));
         } else {

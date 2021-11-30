@@ -21,6 +21,6 @@ return [
 
     'permissions' => 'الصلاحيات',
     'There is no users.' => 'لا يوجد مستخدمين',
-
+    'Image' =>'صورة',
 
 ];

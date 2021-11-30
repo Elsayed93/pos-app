@@ -22,4 +22,5 @@ return [
 
     'permissions' => 'permissions',
     'There is no users.' => 'There is no users.',
+    'Image' =>'Image',
 ];

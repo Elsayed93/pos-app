@@ -49,7 +49,7 @@
 
                 @include('partials._errors')
                 <!-- form start -->
-                <form action="{{ route('dashboard.users.store') }}" method="POST">
+                <form action="{{ route('dashboard.users.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
 
@@ -76,6 +76,13 @@
                             <input type="email" class="form-control" id="exampleInputEmail1"
                                 placeholder="@lang('users.Enter email')" name="email" value="{{ old('email') }}">
                         </div>
+
+                        {{-- image --}}
+                        <div class="form-group">
+                            <label for="exampleImage">@lang('users.Image')</label>
+                            <input type="file" class="form-control" id="exampleImage" name="image" accept="image/*">
+                        </div>
+
                         {{-- password --}}
                         <div class="form-group">
                             <label for="exampleInputPassword1">@lang('users.Password')</label>

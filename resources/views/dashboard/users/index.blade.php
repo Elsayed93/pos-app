@@ -22,6 +22,9 @@
 
 
 @section('content')
+    {{-- {{dd(get_defined_vars())}} --}}
+    {{-- {{dd($users[0]->image)}} --}}
+
     <div class="content-wrapper">
 
         <section class="content-header">
@@ -84,12 +87,14 @@
                     <div class="box-body border-radius-none" style="margin-top:20px;">
                         <!-- /.card-header -->
                         <div class="card-body">
+                            {{-- {{ dd(public_path('uploads/images/users_images/' . $users[0]->image)) }} --}}
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th style="width: 10px">#</th>
                                         <th>@lang('users.name')</th>
                                         <th>@lang('users.email')</th>
+                                        <th>@lang('users.Image')</th>
                                         <th>@lang('users.action')</th>
                                     </tr>
                                 </thead>
@@ -100,6 +105,11 @@
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ $user->first_name . ' ' . $user->last_name }}</td>
                                                 <td>{{ $user->email }}</td>
+                                                <td>
+                                                    <img src="{{ asset('uploads/users_images/' . $user->image) }}"
+                                                        alt="user image" width="80" class="img-thumbnail">
+
+                                                </td>
                                                 <td>
                                                     @if (auth()->user()->isAbleTo('users-update'))
                                                         <a href="{{ route('dashboard.users.edit', $user->id) }}"
