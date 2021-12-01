@@ -16,7 +16,6 @@
 @endpush
 
 @section('content')
-    {{-- {{dd(get_defined_vars())}} --}}
     <div class="content-wrapper">
 
         <section class="content-header">
@@ -49,7 +48,8 @@
 
                 @include('partials._errors')
                 <!-- form start -->
-                <form action="{{ route('dashboard.users.update', $user->id) }}" method="POST">
+                <form action="{{ route('dashboard.users.update', $user->id) }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
@@ -78,6 +78,19 @@
                                 placeholder="@lang('users.Enter email')" name="email" value="{{ $user->email }}">
                         </div>
 
+                        {{-- image --}}
+                        <div class="form-group">
+                            <label for="exampleImage">@lang('users.Image')</label>
+                            <input type="file" class="form-control imgInp" id="exampleImage" name="image" accept="image/*">
+                            <input type="hidden" name="image" value="{{ $user->image }}">
+                        </div>
+
+                        {{-- image preview --}}
+                        <div class="form-group">
+                            <img src="{{ asset('uploads/users_images/' . $user->image) }}" alt=""
+                                class="img-thumbnail image-show" width="100">
+                        </div>
+
                         {{-- permissions --}}
                         <div class="form-group">
                             <label>@lang('site.permissions')</label>
@@ -99,7 +112,8 @@
 
                                     @foreach ($models as $index => $model)
 
-                                        <div class="tab-pane {{ $index == 0 ? 'active' : '' }}" id="{{ $model }}">
+                                        <div class="tab-pane {{ $index == 0 ? 'active' : '' }}"
+                                            id="{{ $model }}">
 
                                             @foreach ($maps as $map)
                                                 <label>

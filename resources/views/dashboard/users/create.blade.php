@@ -80,7 +80,12 @@
                         {{-- image --}}
                         <div class="form-group">
                             <label for="exampleImage">@lang('users.Image')</label>
-                            <input type="file" class="form-control" id="exampleImage" name="image" accept="image/*">
+                            <input type="file" class="form-control imgInp" id="exampleImage" name="image" accept="image/*">
+                        </div>
+
+                        {{-- image preview --}}
+                        <div class="form-group">
+                            <img src="" alt="" class="img-thumbnail image-show" width="100">
                         </div>
 
                         {{-- password --}}

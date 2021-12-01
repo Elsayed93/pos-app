@@ -73,15 +73,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        // dd($request->image->hashName());
-
         if (auth()->user()->isAbleTo('users-create')) {
             $request->validate([
                 'first_name' => 'required',
                 'last_name' => 'required',
-                'email' => 'required',
+                'email' => 'required|unique:users,email',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'password' => 'required|confirmed',
+                'permissions' => 'required',
+
             ]);
 
             $request_data = $request->except(['password', 'password_confirmation', 'permissions', 'image']);
@@ -149,10 +149,27 @@ class UserController extends Controller
             $request->validate([
                 'first_name' => 'required',
                 'last_name' => 'required',
-                'email' => 'required',
+                'email' => 'required|unique:users,email,' . $user->id,
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'permissions' => 'required',
             ]);
 
-            $request_data = $request->except(['permissions']);
+            $request_data = $request->except(['permissions', 'image']);
+
+            if ($request->has('image')) {
+                if ($user->image != 'default.jpg') {
+                    Storage::disk('public_uploads')->delete('users_images/' . $user->image);
+                }
+
+
+                $img = Image::make($request->image)->resize(null, 200, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save(public_path('uploads/users_images/') . $request->image->hashName());
+
+                $request_data['image'] = $request->image->hashName();
+            }
+
+
 
             // update user
             $user->update($request_data);
@@ -178,7 +195,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        // dd($user->image != 'default.jpg');
         if (auth()->user()->isAbleTo('users-delete')) {
             if ($user->image != 'default.jpg') {
                 Storage::disk('public_uploads')->delete('users_images/' . $user->image);

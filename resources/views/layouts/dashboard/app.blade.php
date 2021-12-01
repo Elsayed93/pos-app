@@ -348,6 +348,25 @@
 
         }); //end of ready
     </script>
+
+    {{-- image preview --}}
+    <script>
+        let imgInp = document.getElementsByClassName('imgInp');
+        console.log('imgInp', imgInp);
+
+        imgInp[0].onchange = evt => {
+            const [file] = imgInp[0].files
+            console.log('file', file);
+            console.log('url: ', URL.createObjectURL(file));
+            console.log('url: ', typeof(URL.createObjectURL(file)));
+
+            if (file) {
+                let image_preview = document.getElementsByClassName('image-show');
+                image_preview[0].src = URL.createObjectURL(file)
+            }
+        }
+    </script>
+
     @stack('scripts')
 </body>
 

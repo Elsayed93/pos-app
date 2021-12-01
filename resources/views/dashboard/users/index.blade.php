@@ -22,9 +22,6 @@
 
 
 @section('content')
-    {{-- {{dd(get_defined_vars())}} --}}
-    {{-- {{dd($users[0]->image)}} --}}
-
     <div class="content-wrapper">
 
         <section class="content-header">
@@ -87,7 +84,6 @@
                     <div class="box-body border-radius-none" style="margin-top:20px;">
                         <!-- /.card-header -->
                         <div class="card-body">
-                            {{-- {{ dd(public_path('uploads/images/users_images/' . $users[0]->image)) }} --}}
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
