@@ -21,11 +21,14 @@ return [
 
     'Permission Denied' => 'Permission Denied',
 
-    'logout'=> 'logout',
+    'logout' => 'logout',
 
-    'yes'=> 'yes',
-    'no'=> 'no',
-    'confirm_delete'=> 'confirm delete ?',
+    'yes' => 'yes',
+    'no' => 'no',
+    'confirm_delete' => 'confirm delete ?',
 
+    'name' => 'Name',
+    'action' => 'Action',
+    'enter name' => 'please enter name',
 
 ];

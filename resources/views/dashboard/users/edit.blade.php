@@ -82,7 +82,7 @@
                         <div class="form-group">
                             <label for="exampleImage">@lang('users.Image')</label>
                             <input type="file" class="form-control imgInp" id="exampleImage" name="image" accept="image/*">
-                            <input type="hidden" name="image" value="{{ $user->image }}">
+                            {{-- <input type="hidden" name="image" value="{{ $user->image }}"> --}}
                         </div>
 
                         {{-- image preview --}}

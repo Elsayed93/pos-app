@@ -307,7 +307,6 @@
             $('.delete').click(function(e) {
 
                 var that = $(this)
-
                 e.preventDefault();
 
                 var n = new Noty({
@@ -329,21 +328,6 @@
 
             }); //end of delete
 
-            // // image preview
-            // $(".image").change(function () {
-            //
-            //     if (this.files && this.files[0]) {
-            //         var reader = new FileReader();
-            //
-            //         reader.onload = function (e) {
-            //             $('.image-preview').attr('src', e.target.result);
-            //         }
-            //
-            //         reader.readAsDataURL(this.files[0]);
-            //     }
-            //
-            // });
-
             CKEDITOR.config.language = "{{ app()->getLocale() }}";
 
         }); //end of ready
@@ -362,7 +346,8 @@
 
             if (file) {
                 let image_preview = document.getElementsByClassName('image-show');
-                image_preview[0].src = URL.createObjectURL(file)
+                image_preview[0].style.display = "inline-block";
+                image_preview[0].src = URL.createObjectURL(file);
             }
         }
     </script>

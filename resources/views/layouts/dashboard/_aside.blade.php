@@ -17,12 +17,32 @@
         </div>
 
         <ul class="sidebar-menu" data-widget="tree">
-            <li><a href="{{ route('dashboard.welcome') }}"><i
-                        class="fa fa-th"></i><span>@lang('site.dashboard')</span></a></li>
-            @if (auth()->user()->isAbleTo('users-read'))
-                <li><a href="{{ route('dashboard.users.index') }}"><i
-                            class="fa fa-th"></i><span>@lang('users.users')</span></a></li>
+            {{-- dashboard --}}
+            <li>
+                <a href="{{ route('dashboard.welcome') }}">
+                    <i class="fa fa-th"></i>
+                    <span>@lang('site.dashboard')</span>
+                </a>
+            </li>
 
+            {{-- users --}}
+            @if (auth()->user()->isAbleTo('users-read'))
+                <li>
+                    <a href="{{ route('dashboard.users.index') }}">
+                        <i class="fa fa-th"></i>
+                        <span>@lang('users.users')</span>
+                    </a>
+                </li>
+            @endif
+
+            {{-- categories --}}
+            @if (auth()->user()->isAbleTo('categories-read'))
+                <li>
+                    <a href="{{ route('dashboard.categories.index') }}">
+                        <i class="fa fa-th"></i>
+                        <span>@lang('categories.categories')</span>
+                    </a>
+                </li>
             @endif
 
 

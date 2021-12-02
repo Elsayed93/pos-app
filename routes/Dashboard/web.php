@@ -13,6 +13,10 @@ Route::group(
 
             // users
             Route::resource('users', UserController::class)->except('show');
+
+            //categories
+            Route::resource('categories', CategoryController::class)->except('show');
+
         });
     }
 );

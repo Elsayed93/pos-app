@@ -85,7 +85,7 @@
 
                         {{-- image preview --}}
                         <div class="form-group">
-                            <img src="" alt="" class="img-thumbnail image-show" width="100">
+                            <img src="" alt="" class="img-thumbnail image-show" width="100" style="display: none;">
                         </div>
 
                         {{-- password --}}

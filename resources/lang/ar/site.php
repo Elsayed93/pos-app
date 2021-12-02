@@ -7,7 +7,7 @@ return [
     'added_successfully' => 'تم إضافة البيانات بنجاح',
     'updated_successfully' => 'تم تعديل البيانات بنجاح',
     'deleted_successfully' => 'تم مسح البيانات بنجاح',
-//
+    //
     'Submit' => 'حفظ',
 
     'edit' => 'تعديل',
@@ -21,11 +21,13 @@ return [
 
     'Permission Denied' => 'غير مسموح',
 
-    'logout'=> 'تسجيل الخروج',
+    'logout' => 'تسجيل الخروج',
 
-    'yes'=> 'نعم',
-    'no'=> 'لا',
-    'confirm_delete'=> 'تأكيد الحذف ؟',
-
+    'yes' => 'نعم',
+    'no' => 'لا',
+    'confirm_delete' => 'تأكيد الحذف ؟',
+    'name' => 'الإسم',
+    'action' => 'الإجراءات',
+    'enter name' => 'من فضلك قم بكتابة الإسم',
 
 ];
