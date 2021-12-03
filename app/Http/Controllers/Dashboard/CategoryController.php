@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+// use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -43,23 +45,19 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // ar_name
-        // en_name
-        // dd($request->all());
 
-        $request->validate(
-            [
-                'ar_name' => 'required|unique:category_translations,name',
-                'en_name' => 'required|unique:category_translations,name',
-            ]
-        );
+        $rules = [];
 
-        $data = [
-            'ar' => ['name' => $request->ar_name],
-            'en' => ['name' => $request->en_name],
-        ];
+        foreach (config('translatable.locales') as  $locale) {
 
-        $category = Category::create($data);
+            $rules += [$locale . '.name' => ['required', Rule::unique('category_translations', 'name')->where(function ($q) use ($locale) {
+                return $q->where('locale', $locale);
+            })]];
+        }
+
+        $request->validate($rules);
+
+        $category = Category::create($request->all());
 
 
         if ($category) {
@@ -77,7 +75,6 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-
         return view('dashboard.categories.edit', compact('category'));
     }
 
@@ -90,11 +87,19 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $request->validate(
-            [
-                'name' => 'required|unique:categories,name,' . $category->id,
-            ]
-        );
+        $rules = [];
+
+        foreach (config('translatable.locales') as  $locale) {
+
+            $rules += [$locale . '.name' => ['required', Rule::unique('category_translations', 'name')
+                ->ignore($category->id, 'category_id')
+                ->where(function ($q) use ($locale) {
+                    return $q->where('locale', $locale);
+                })]];
+        }
+
+        $request->validate($rules);
+
 
         $category->update($request->all());
 

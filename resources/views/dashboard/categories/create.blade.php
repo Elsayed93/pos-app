@@ -50,16 +50,15 @@
 
 
                         @foreach (config('translatable.locales') as $locale)
-
-
-                        {{-- ar name --}}
-                        <div class="form-group">
-                            <label for="{{ $locale }}_name">@lang('site.'.$locale.'_name')</label>
-                            <input type="text" class="form-control" id="{{ $locale }}_name"
-                                placeholder="@lang('site.enter name')" name="{{ $locale }}_name"
-                                value="{{ old($locale . '_name') }}">
-                        </div>
+                            {{-- name --}}
+                            <div class="form-group">
+                                <label for="{{ $locale }}_name">@lang('site.'.$locale.'_name')</label>
+                                <input type="text" class="form-control" id="{{ $locale }}_name"
+                                    placeholder="@lang('site.enter name')" name="{{ $locale }}[name]"
+                                    value="{{ old($locale . '.name') }}">
+                            </div>
                         @endforeach
+
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">@lang('site.Submit')</button>
                         </div>
