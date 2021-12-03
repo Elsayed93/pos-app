@@ -31,4 +31,7 @@ return [
     'action' => 'Action',
     'enter name' => 'please enter name',
 
+    'ar_name' =>'Name in Arabic',
+    'en_name' =>'Name in English',
+
 ];

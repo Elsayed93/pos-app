@@ -49,14 +49,17 @@
                     <div class="card-body">
 
 
-                        {{-- name --}}
+                        @foreach (config('translatable.locales') as $locale)
+
+
+                        {{-- ar name --}}
                         <div class="form-group">
-                            <label for="name">@lang('site.name')</label>
-                            <input type="text" class="form-control" id="name" placeholder="@lang('site.enter name')"
-                                name="name" value="{{ old('name') }}">
+                            <label for="{{ $locale }}_name">@lang('site.'.$locale.'_name')</label>
+                            <input type="text" class="form-control" id="{{ $locale }}_name"
+                                placeholder="@lang('site.enter name')" name="{{ $locale }}_name"
+                                value="{{ old($locale . '_name') }}">
                         </div>
-
-
+                        @endforeach
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">@lang('site.Submit')</button>
                         </div>
