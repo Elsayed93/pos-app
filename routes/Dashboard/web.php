@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath','auth']
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth']
     ],
     function () {
         Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
@@ -17,6 +17,8 @@ Route::group(
             //categories
             Route::resource('categories', CategoryController::class)->except('show');
 
+            //products
+            Route::resource('products', ProductController::class)->except('show');
         });
     }
 );

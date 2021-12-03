@@ -30,6 +30,19 @@ return [
     'action' => 'الإجراءات',
     'enter name' => 'من فضلك قم بكتابة الإسم',
 
-    'ar_name' =>'الإسم باللغة العربية',
-    'en_name' =>'الإسم باللغة الإنجليزية',
+    'ar_name' => 'الإسم باللغة العربية',
+    'en_name' => 'الإسم باللغة الإنجليزية',
+
+    'ar_description' => 'الوصف باللغة العربية',
+    'en_description' => 'الوصف باللغة الإنجليزية',
+    'enter description' => 'قم بكتابة الوصف',
+    'Select Category' => 'قم بإختيار قسم',
+    'categories' => 'الأقسام',
+    'Image' => 'صورة',
+    'enter purchase price' => 'سعر الشراء',
+    'enter sale price' => 'سعر البيع',
+    'enter stock' => 'كمية المخزون',
+    'purchase_price' => 'سعر الشراء',
+    'sale_price' => 'سعر البيع',
+    'stock' => 'كمية المخزون',
 ];

@@ -79,7 +79,7 @@
 
                         {{-- image --}}
                         <div class="form-group">
-                            <label for="exampleImage">@lang('users.Image')</label>
+                            <label for="exampleImage">@lang('site.Image')</label>
                             <input type="file" class="form-control imgInp" id="exampleImage" name="image" accept="image/*">
                         </div>
 
