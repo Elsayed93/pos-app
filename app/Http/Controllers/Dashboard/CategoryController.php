@@ -136,4 +136,11 @@ class CategoryController extends Controller
 
         return $all_categories;
     }
+
+
+    public function getProductCategory(Request $request)
+    {
+        $productCategory = Category::findOrFail($request->category_id);
+        return $productCategory;
+    }
 }

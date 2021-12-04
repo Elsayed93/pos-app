@@ -46,4 +46,5 @@ return [
     'purchase_price' => 'purchase price',
     'sale_price' => 'sale price',
     'stock' => 'stock',
+    'product image' => 'product image',
 ];

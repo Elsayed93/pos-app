@@ -45,4 +45,6 @@ return [
     'purchase_price' => 'سعر الشراء',
     'sale_price' => 'سعر البيع',
     'stock' => 'كمية المخزون',
+    'product image' => 'صورة المنتج',
+
 ];

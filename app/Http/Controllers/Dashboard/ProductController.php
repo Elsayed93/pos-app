@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Validation\Rule;
 
@@ -110,7 +111,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('dashboard.products.edit', compact('product'));
     }
 
     /**
@@ -122,7 +123,59 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        // validation
+        $rules = [];
+
+        foreach (config('translatable.locales') as  $locale) {
+
+            $rules += [$locale . '.name' => ['required', Rule::unique('product_translations', 'name')
+                ->ignore($product->id, 'product_id')
+                ->where(function ($q) use ($locale) {
+                    return $q->where('locale', $locale);
+                })]];
+
+            $rules += [$locale . '.description' => ['required', Rule::unique('product_translations', 'description')
+                ->ignore($product->id, 'product_id')
+                ->where(function ($q) use ($locale) {
+                    return $q->where('locale', $locale);
+                })]];
+        }
+
+        $rules += [
+            'category_id' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'purchase_price' => 'required|numeric|gt:0',
+            'sale_price' => 'required|numeric|gt:0',
+            'stock' => 'required|integer',
+        ];
+
+        $request->validate($rules);
+
+        $request_data = $request->except(['image']);
+
+        // handle image
+        if ($request->has('image')) {
+            $img = Image::make($request->image)->resize(300, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save(public_path('uploads/products/') . $request->image->hashName());
+        }
+
+        if ($request->image != null) {
+            $request_data['image'] = $request->image->hashName();
+        } else {
+
+            $request_data['image'] = 'default.jpg';
+        }
+
+        // update
+        $product->update($request_data);
+
+
+        if ($product) {
+            return redirect()->route('dashboard.products.index')->with('success', __('site.added_successfully'));
+        } else {
+            return redirect()->back()->with('error', __('site.added_failed'));
+        }
     }
 
     /**
@@ -133,6 +186,14 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        if (auth()->user()->isAbleTo('products-delete')) {
+            if ($product->image != 'default.jpg') {
+                Storage::disk('public_uploads')->delete('products/' . $product->image);
+            }
+            $product->delete();
+            return redirect()->route('dashboard.products.index')->with('success', __('site.deleted_successfully'));
+        } else {
+            return redirect()->back()->with('error', __('site.Permission Denied'));
+        }
     }
 }
