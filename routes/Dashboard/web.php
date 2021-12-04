@@ -16,6 +16,9 @@ Route::group(
 
             //categories
             Route::resource('categories', CategoryController::class)->except('show');
+            //get.all.categories
+            Route::get('get-all-categories', [App\Http\Controllers\Dashboard\CategoryController::class, 'getAllCategories'])->name('get.all.categories');
+
 
             //products
             Route::resource('products', ProductController::class)->except('show');

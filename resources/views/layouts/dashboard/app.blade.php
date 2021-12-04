@@ -336,7 +336,6 @@
     {{-- image preview --}}
     <script>
         let imgInp = document.getElementsByClassName('imgInp');
-        console.log('imgInp', imgInp);
 
         if (imgInp[0]) {
             imgInp[0].onchange = evt => {

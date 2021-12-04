@@ -128,4 +128,12 @@ class CategoryController extends Controller
             return redirect()->back()->with('error', __('site.deleted_failed'));
         }
     }
+
+    // get all categories
+    public function getAllCategories()
+    {
+        $all_categories = Category::get();
+
+        return $all_categories;
+    }
 }

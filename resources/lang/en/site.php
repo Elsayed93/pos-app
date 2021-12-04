@@ -39,7 +39,7 @@ return [
 
     'Select Category' => 'Select Category',
     'categories' => 'categories',
-    'Image' => 'Image',
+    'image' => 'Image',
     'enter purchase price' => 'enter purchase price',
     'enter sale price' => 'enter sale price',
     'enter stock' => 'enter stock',

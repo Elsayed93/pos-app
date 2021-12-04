@@ -38,7 +38,7 @@ return [
     'enter description' => 'قم بكتابة الوصف',
     'Select Category' => 'قم بإختيار قسم',
     'categories' => 'الأقسام',
-    'Image' => 'صورة',
+    'image' => 'صورة',
     'enter purchase price' => 'سعر الشراء',
     'enter sale price' => 'سعر البيع',
     'enter stock' => 'كمية المخزون',

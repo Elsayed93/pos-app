@@ -51,7 +51,7 @@
                         {{-- categories --}}
                         <div class="form-group">
                             <label for="categories">@lang('site.categories')</label>
-                            <select name="category" id="categories" class="form-control">
+                            <select name="category_id" id="categories" class="form-control">
                                 <option value="">Select Category</option>
                             </select>
                         </div>
@@ -88,7 +88,7 @@
                         {{-- purchase_price --}}
                         <div class="form-group">
                             <label for="purchase_price">@lang('site.purchase_price')</label>
-                            <input type="text" class="form-control" id="purchase_price"
+                            <input type="number" class="form-control" id="purchase_price"
                                 placeholder="@lang('site.enter purchase price')" name="purchase_price"
                                 value="{{ old('purchase_price') }}">
                         </div>
@@ -96,7 +96,7 @@
                         {{-- sale_price --}}
                         <div class="form-group">
                             <label for="sale_price">@lang('site.sale_price')</label>
-                            <input type="text" class="form-control" id="sale_price"
+                            <input type="number" class="form-control" id="sale_price"
                                 placeholder="@lang('site.enter sale price')" name="sale_price"
                                 value="{{ old('sale_price') }}">
                         </div>
@@ -105,8 +105,8 @@
                         {{-- stock --}}
                         <div class="form-group">
                             <label for="stock">@lang('site.stock')</label>
-                            <input type="text" class="form-control" id="stock"
-                                placeholder="@lang('site.enter stock')" name="stock" value="{{ old('stock') }}">
+                            <input type="number" class="form-control" id="stock" placeholder="@lang('site.enter stock')"
+                                name="stock" value="{{ old('stock') }}">
                         </div>
 
 
@@ -126,3 +126,31 @@
 
 
 @endsection
+
+@push('scripts')
+    {{-- get all categories --}}
+    <script>
+        $.ajax({
+            url: "{{ route('dashboard.get.all.categories') }}",
+
+            success: function(data) {
+
+                $.each(data, function(i, item) {
+                    $('#categories').append($('<option>', {
+                        value: item.id,
+                        text: item.name
+                    }));
+                });
+            }
+        });
+
+
+        // $('#categories').on('change', function() {
+        //     console.log($(this).find('option:selected').val());
+        //     console.log($(this).val());
+        //     if($(this).find('option:selected')){
+
+        //     }
+        // });
+    </script>
+@endpush
