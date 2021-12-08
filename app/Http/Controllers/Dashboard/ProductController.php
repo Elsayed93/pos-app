@@ -18,9 +18,14 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::latest()->paginate(10);
 
-        return view('dashboard.products.index', compact('products'));
+        if (auth()->user()->isAbleTo('products-read')) {
+            $products = Product::latest()->paginate(10);
+            return view('dashboard.products.index', compact('products'));
+            //
+        } else {
+            return redirect()->back()->with('error', __('site.Permission Denied'));
+        }
     }
 
     /**
@@ -30,7 +35,12 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('dashboard.products.create');
+
+        if (auth()->user()->isAbleTo('products-create')) {
+            return view('dashboard.products.create');
+        } else {
+            return redirect()->back()->with('error', __('site.Permission Denied'));
+        }
     }
 
     /**
@@ -41,66 +51,61 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // validation
-        $rules = [];
 
-        foreach (config('translatable.locales') as  $locale) {
+        if (auth()->user()->isAbleTo('products-create')) {
 
-            $rules += [$locale . '.name' => ['required', Rule::unique('product_translations', 'name')->where(function ($q) use ($locale) {
-                return $q->where('locale', $locale);
-            })]];
+            // validation
+            $rules = [];
 
-            $rules += [$locale . '.description' => ['required', Rule::unique('product_translations', 'description')->where(function ($q) use ($locale) {
-                return $q->where('locale', $locale);
-            })]];
-        }
+            foreach (config('translatable.locales') as  $locale) {
 
-        $rules += [
-            'category_id' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'purchase_price' => 'required|numeric|gt:0',
-            'sale_price' => 'required|numeric|gt:0',
-            'stock' => 'required|integer',
-        ];
+                $rules += [$locale . '.name' => ['required', Rule::unique('product_translations', 'name')->where(function ($q) use ($locale) {
+                    return $q->where('locale', $locale);
+                })]];
 
-        $request->validate($rules);
+                $rules += [$locale . '.description' => ['required', Rule::unique('product_translations', 'description')->where(function ($q) use ($locale) {
+                    return $q->where('locale', $locale);
+                })]];
+            }
 
-        $request_data = $request->except(['image']);
+            $rules += [
+                'category_id' => 'required',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'purchase_price' => 'required|numeric|gt:0',
+                'sale_price' => 'required|numeric|gt:0',
+                'stock' => 'required|integer',
+            ];
 
-        // handle image
-        if ($request->has('image')) {
-            $img = Image::make($request->image)->resize(300, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save(public_path('uploads/products/') . $request->image->hashName());
-        }
+            $request->validate($rules);
 
-        if ($request->image != null) {
-            $request_data['image'] = $request->image->hashName();
+            $request_data = $request->except(['image']);
+
+            // handle image
+            if ($request->has('image')) {
+                $img = Image::make($request->image)->resize(300, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save(public_path('uploads/products/') . $request->image->hashName());
+            }
+
+            if ($request->image != null) {
+                $request_data['image'] = $request->image->hashName();
+            } else {
+
+                $request_data['image'] = 'default.jpg';
+            }
+
+            // create
+            $product = Product::create($request_data);
+
+
+            if ($product) {
+                return redirect()->route('dashboard.products.index')->with('success', __('site.added_successfully'));
+            } else {
+                return redirect()->back()->with('error', __('site.added_failed'));
+            }
         } else {
-
-            $request_data['image'] = 'default.jpg';
+            return redirect()->back()->with('error', __('site.Permission Denied'));
         }
-
-        // create
-        $product = Product::create($request_data);
-
-
-        if ($product) {
-            return redirect()->route('dashboard.products.index')->with('success', __('site.added_successfully'));
-        } else {
-            return redirect()->back()->with('error', __('site.added_failed'));
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product)
-    {
-        //
     }
 
     /**
@@ -111,7 +116,11 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('dashboard.products.edit', compact('product'));
+        if (auth()->user()->isAbleTo('products-update')) {
+            return view('dashboard.products.edit', compact('product'));
+        } else {
+            return redirect()->back()->with('error', __('site.Permission Denied'));
+        }
     }
 
     /**
@@ -123,58 +132,64 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        // validation
-        $rules = [];
 
-        foreach (config('translatable.locales') as  $locale) {
+        if (auth()->user()->isAbleTo('products-update')) {
 
-            $rules += [$locale . '.name' => ['required', Rule::unique('product_translations', 'name')
-                ->ignore($product->id, 'product_id')
-                ->where(function ($q) use ($locale) {
-                    return $q->where('locale', $locale);
-                })]];
+            // validation
+            $rules = [];
 
-            $rules += [$locale . '.description' => ['required', Rule::unique('product_translations', 'description')
-                ->ignore($product->id, 'product_id')
-                ->where(function ($q) use ($locale) {
-                    return $q->where('locale', $locale);
-                })]];
-        }
+            foreach (config('translatable.locales') as  $locale) {
 
-        $rules += [
-            'category_id' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'purchase_price' => 'required|numeric|gt:0',
-            'sale_price' => 'required|numeric|gt:0',
-            'stock' => 'required|integer',
-        ];
+                $rules += [$locale . '.name' => ['required', Rule::unique('product_translations', 'name')
+                    ->ignore($product->id, 'product_id')
+                    ->where(function ($q) use ($locale) {
+                        return $q->where('locale', $locale);
+                    })]];
 
-        $request->validate($rules);
+                $rules += [$locale . '.description' => ['required', Rule::unique('product_translations', 'description')
+                    ->ignore($product->id, 'product_id')
+                    ->where(function ($q) use ($locale) {
+                        return $q->where('locale', $locale);
+                    })]];
+            }
 
-        $request_data = $request->except(['image']);
+            $rules += [
+                'category_id' => 'required',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'purchase_price' => 'required|numeric|gt:0',
+                'sale_price' => 'required|numeric|gt:0',
+                'stock' => 'required|integer',
+            ];
 
-        // handle image
-        if ($request->has('image')) {
-            $img = Image::make($request->image)->resize(300, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save(public_path('uploads/products/') . $request->image->hashName());
-        }
+            $request->validate($rules);
 
-        if ($request->image != null) {
-            $request_data['image'] = $request->image->hashName();
+            $request_data = $request->except(['image']);
+
+            // handle image
+            if ($request->has('image')) {
+                $img = Image::make($request->image)->resize(300, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save(public_path('uploads/products/') . $request->image->hashName());
+            }
+
+            if ($request->image != null) {
+                $request_data['image'] = $request->image->hashName();
+            } else {
+
+                $request_data['image'] = 'default.jpg';
+            }
+
+            // update
+            $product->update($request_data);
+
+
+            if ($product) {
+                return redirect()->route('dashboard.products.index')->with('success', __('site.added_successfully'));
+            } else {
+                return redirect()->back()->with('error', __('site.added_failed'));
+            }
         } else {
-
-            $request_data['image'] = 'default.jpg';
-        }
-
-        // update
-        $product->update($request_data);
-
-
-        if ($product) {
-            return redirect()->route('dashboard.products.index')->with('success', __('site.added_successfully'));
-        } else {
-            return redirect()->back()->with('error', __('site.added_failed'));
+            return redirect()->back()->with('error', __('site.Permission Denied'));
         }
     }
 
