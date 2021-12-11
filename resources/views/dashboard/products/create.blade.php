@@ -15,9 +15,7 @@
     <div class="content-wrapper">
 
         <section class="content-header">
-
             <h1>@lang('products.create')</h1>
-
             <ol class="breadcrumb">
                 <li class="active"><i class="fa fa-dashboard"></i>
                     <a href="{{ route('dashboard.welcome') }}">
@@ -35,13 +33,11 @@
         </section>
 
         <section class="content">
-
             <div class="box box-solid">
 
                 <div class="box-header">
                     <h3 class="box-title">@lang('products.create')</h3>
                 </div>
-
 
                 @include('partials._errors')
                 <!-- form start -->
@@ -51,8 +47,9 @@
                         {{-- categories --}}
                         <div class="form-group">
                             <label for="categories">@lang('site.categories')</label>
-                            <select name="category_id" id="categories" class="form-control">
-                                <option value="">Select Category</option>
+                            <select name="category_id" id="categories" class="form-control"
+                                data-oldcategory="{{ old() ? old('category_id') : '' }}">
+                                <option value="">@lang('site.Select Category')</option>
                             </select>
                         </div>
 
@@ -68,9 +65,9 @@
                             {{-- description --}}
                             <div class="form-group">
                                 <label for="{{ $locale }}_description">@lang('site.'.$locale.'_description')</label>
-                                <input type="text" class="form-control" id="{{ $locale }}_description"
-                                    placeholder="@lang('site.enter description')" name="{{ $locale }}[description]"
-                                    value="{{ old($locale . '.description') }}">
+                                <textarea class="form-control ckeditor" id="{{ $locale }}_description"
+                                    placeholder="@lang('site.enter description')"
+                                    name="{{ $locale }}[description]">{{ old($locale . '.description') }}</textarea>
                             </div>
                         @endforeach
 
@@ -105,8 +102,8 @@
                         {{-- stock --}}
                         <div class="form-group">
                             <label for="stock">@lang('site.stock')</label>
-                            <input type="number" step="0.01" class="form-control" id="stock" placeholder="@lang('site.enter stock')"
-                                name="stock" value="{{ old('stock') }}">
+                            <input type="number" step="0.01" class="form-control" id="stock"
+                                placeholder="@lang('site.enter stock')" name="stock" value="{{ old('stock') }}">
                         </div>
 
 
@@ -118,13 +115,8 @@
 
                 <!-- /.box-body -->
             </div>
-
-
         </section><!-- end of content -->
-
     </div><!-- end of content wrapper -->
-
-
 @endsection
 
 @push('scripts')
@@ -134,12 +126,18 @@
             url: "{{ route('dashboard.get.all.categories') }}",
 
             success: function(data) {
+                let old_category_id = $('#categories').data('oldcategory'); // in case != '' >>> =1 : selected
 
                 $.each(data, function(i, item) {
-                    $('#categories').append($('<option>', {
-                        value: item.id,
-                        text: item.name
-                    }));
+
+                    if (old_category_id == item.id) {
+                        $('#categories').append($('<option>').val(item.id).text(item.name).attr(
+                            'selected', 'selected'));
+                    } else {
+                        $('#categories').append($('<option>').val(item.id).text(item.name));
+
+                    }
+
                 });
             }
         });

@@ -32,7 +32,8 @@ return [
 
     'ar_name' => 'الإسم باللغة العربية',
     'en_name' => 'الإسم باللغة الإنجليزية',
-
+    'profit' => 'الربح',
+    'description' => 'الوصف',
     'ar_description' => 'الوصف باللغة العربية',
     'en_description' => 'الوصف باللغة الإنجليزية',
     'enter description' => 'قم بكتابة الوصف',

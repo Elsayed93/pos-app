@@ -73,7 +73,7 @@ class ProductController extends Controller
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'purchase_price' => 'required|numeric|gt:0',
                 'sale_price' => 'required|numeric|gt:0',
-                'stock' => 'required|integer',
+                'stock' => 'required|integer|gt:0',
             ];
 
             $request->validate($rules);
@@ -158,7 +158,7 @@ class ProductController extends Controller
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'purchase_price' => 'required|numeric|gt:0',
                 'sale_price' => 'required|numeric|gt:0',
-                'stock' => 'required|integer',
+                'stock' => 'required|integer|gt:0',
             ];
 
             $request->validate($rules);

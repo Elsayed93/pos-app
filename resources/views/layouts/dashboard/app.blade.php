@@ -330,6 +330,7 @@
 
             CKEDITOR.config.language = "{{ app()->getLocale() }}";
 
+
         }); //end of ready
     </script>
 

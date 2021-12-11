@@ -33,10 +33,11 @@ return [
 
     'ar_name' => 'Name in Arabic',
     'en_name' => 'Name in English',
+    'description' => 'description',
     'ar_description' => 'description in Arabic',
     'en_description' => 'description in English',
     'enter description' => 'enter description',
-
+    'profit' => 'Profit',
     'Select Category' => 'Select Category',
     'categories' => 'categories',
     'image' => 'Image',

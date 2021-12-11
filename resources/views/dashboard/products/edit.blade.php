@@ -60,7 +60,6 @@
                         @foreach (config('translatable.locales') as $locale)
                             {{-- name --}}
                             <div class="form-group">
-                                {{-- $post->translate('en')->title; --}}
                                 <label for="{{ $locale }}_name">@lang('site.'.$locale.'_name')</label>
                                 <input type="text" class="form-control" id="{{ $locale }}_name"
                                     placeholder="@lang('site.enter name')" name="{{ $locale }}[name]"
@@ -70,9 +69,9 @@
                             {{-- description --}}
                             <div class="form-group">
                                 <label for="{{ $locale }}_description">@lang('site.'.$locale.'_description')</label>
-                                <input type="text" class="form-control" id="{{ $locale }}_description"
-                                    placeholder="@lang('site.enter description')" name="{{ $locale }}[description]"
-                                    value="{{ $product->translate($locale)->description }}">
+                                <textarea class="form-control ckeditor" id="{{ $locale }}_description"
+                                    placeholder="@lang('site.enter description')"
+                                    name="{{ $locale }}[description]">{{ $product->translate($locale)->description }}</textarea>
                             </div>
                         @endforeach
 

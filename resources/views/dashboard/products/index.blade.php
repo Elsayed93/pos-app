@@ -90,9 +90,11 @@
                                     <tr>
                                         <th style="width: 10px">#</th>
                                         <th>@lang('site.name')</th>
+                                        <th>@lang('site.description')</th>
                                         <th>@lang('site.image')</th>
                                         <th>@lang('site.purchase_price')</th>
                                         <th>@lang('site.sale_price')</th>
+                                        <th>@lang('site.profit') %</th>
                                         <th>@lang('site.stock')</th>
                                         <th>@lang('site.action')</th>
                                     </tr>
@@ -103,12 +105,14 @@
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ $product->name }}</td>
+                                                <td>{!! $product->description !!}</td>
                                                 <td>
                                                     <img src="{{ asset('uploads/products/' . $product->image) }}" alt=""
-                                                      class="img-thumbnail" width="80">
+                                                        class="img-thumbnail" width="80">
                                                 </td>
                                                 <td>{{ $product->purchase_price }}</td>
                                                 <td>{{ $product->sale_price }}</td>
+                                                <td>{{ $product->profit_percentage }} %</td>
                                                 <td>{{ $product->stock }}</td>
                                                 <td>
                                                     @if (auth()->user()->isAbleTo('products-update'))
