@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -16,12 +17,20 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
         if (auth()->user()->isAbleTo('products-read')) {
-            $products = Product::latest()->paginate(10);
-            return view('dashboard.products.index', compact('products'));
+            $categories = Category::all();
+
+            $products = Product::when($request->search, function ($product) use ($request) {
+                return $product->whereTranslationLike('name', '%' . $request->search . '%')
+                    ->orWhereTranslationLike('description', '%' . $request->search . '%');
+            })->when($request->category_id, function ($product) use ($request) {
+                return $product->where('category_id', $request->category_id);
+            })->latest()->paginate(10);
+
+            return view('dashboard.products.index', compact('categories', 'products'));
             //
         } else {
             return redirect()->back()->with('error', __('site.Permission Denied'));

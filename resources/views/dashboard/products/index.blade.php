@@ -78,6 +78,20 @@
                                     @endif
 
                                 </div>
+
+                                {{-- categories --}}
+                                <div class="col-md-4">
+                                    <select name="category_id" id="categories" class="form-control">
+                                        <option value="">@lang('site.Select Category')</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}"
+                                                {{ request()->category_id == $category->id ? 'selected' : '' }}>
+                                                {{ $category->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                             </div>
                         </form>
 
@@ -157,7 +171,7 @@
                                             </tr>
                                         @endforeach
                                     @else
-                                        <td colspan="4" id="noproducts">@lang('products.There is no products.')</td>
+                                        <td colspan="8" id="noproducts">@lang('products.There is no products.')</td>
                                     @endif
 
                                 </tbody>

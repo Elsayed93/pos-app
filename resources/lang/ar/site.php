@@ -33,6 +33,9 @@ return [
     'ar_name' => 'الإسم باللغة العربية',
     'en_name' => 'الإسم باللغة الإنجليزية',
     'profit' => 'الربح',
+    'Products Number' => 'عدد المنتجات',
+    'Related Products' => 'المنتجات المرتبطة',
+
     'description' => 'الوصف',
     'ar_description' => 'الوصف باللغة العربية',
     'en_description' => 'الوصف باللغة الإنجليزية',

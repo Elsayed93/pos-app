@@ -91,6 +91,8 @@
                                     <tr>
                                         <th style="width: 10px">#</th>
                                         <th>@lang('site.name')</th>
+                                        <th>@lang('site.Products Number')</th>
+                                        <th>@lang('site.Related Products')</th>
                                         <th>@lang('site.action')</th>
                                     </tr>
                                 </thead>
@@ -100,6 +102,12 @@
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ $category->name }}</td>
+                                                <td>{{ $category->products()->count() }}</td>
+                                                <td>
+                                                    <a href="#" class="btn btn-info btn-sm">
+                                                        @lang('site.Related Products')
+                                                    </a>
+                                                </td>
                                                 <td>
                                                     @if (auth()->user()->isAbleTo('categories-update'))
                                                         <a href="{{ route('dashboard.categories.edit', $category->id) }}"
@@ -119,7 +127,8 @@
                                                     @endif
                                                     @if (auth()->user()->isAbleTo('categories-delete'))
 
-                                                        <form action="{{ route('dashboard.categories.destroy', $category->id) }}"
+                                                        <form
+                                                            action="{{ route('dashboard.categories.destroy', $category->id) }}"
                                                             method="post" id="deleteForm" style="display: inline-block;">
                                                             @method('DELETE')
                                                             @csrf

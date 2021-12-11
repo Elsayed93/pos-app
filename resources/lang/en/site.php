@@ -38,6 +38,9 @@ return [
     'en_description' => 'description in English',
     'enter description' => 'enter description',
     'profit' => 'Profit',
+    'Products Number' => 'Products Number',
+    'Related Products' => 'Related Products',
+
     'Select Category' => 'Select Category',
     'categories' => 'categories',
     'image' => 'Image',
