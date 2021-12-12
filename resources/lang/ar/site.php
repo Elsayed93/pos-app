@@ -43,6 +43,8 @@ return [
     'Select Category' => 'قم بإختيار قسم',
     'categories' => 'الأقسام',
     'image' => 'صورة',
+    'category' => 'القسم',
+
     'enter purchase price' => 'سعر الشراء',
     'enter sale price' => 'سعر البيع',
     'enter stock' => 'كمية المخزون',

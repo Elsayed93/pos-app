@@ -26,6 +26,5 @@ class Product extends Model implements TranslatableContract
         $profit_percentage = ($profit / $this->purchase_price) * 100;
 
         return round($profit_percentage, 3);
-        // return $profit_percentage;
     }
 }

@@ -176,6 +176,11 @@ class ProductController extends Controller
 
             // handle image
             if ($request->has('image')) {
+
+                if ($product->image != 'default.jpg') {
+                    Storage::disk('public_uploads')->delete('products/' . $product->image);
+                }
+
                 $img = Image::make($request->image)->resize(300, null, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save(public_path('uploads/products/') . $request->image->hashName());

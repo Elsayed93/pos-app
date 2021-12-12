@@ -84,6 +84,7 @@ return [
         'string' => 'The :attribute must not be greater than :max characters.',
         'array' => 'The :attribute must not have more than :max items.',
     ],
+
     'mimes' => 'The :attribute must be a file of type: :values.',
     'mimetypes' => 'The :attribute must be a file of type: :values.',
     'min' => [
@@ -153,6 +154,18 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'ar' => [
+            'name' => 'Arabic name',
+            'title' => 'Arabic Title',
+            'description' => 'Arabic Description',
+        ],
+
+        'en' => [
+            'name' => 'English Name',
+            'title' => 'English Title',
+            'description' => 'English Description',
+        ],
+    ],
 
 ];

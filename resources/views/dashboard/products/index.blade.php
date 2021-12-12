@@ -105,6 +105,7 @@
                                         <th style="width: 10px">#</th>
                                         <th>@lang('site.name')</th>
                                         <th>@lang('site.description')</th>
+                                        <th>@lang('site.category')</th>
                                         <th>@lang('site.image')</th>
                                         <th>@lang('site.purchase_price')</th>
                                         <th>@lang('site.sale_price')</th>
@@ -120,6 +121,7 @@
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>{{ $product->name }}</td>
                                                 <td>{!! $product->description !!}</td>
+                                                <td>{{ $product->category->name }}</td>
                                                 <td>
                                                     <img src="{{ asset('uploads/products/' . $product->image) }}" alt=""
                                                         class="img-thumbnail" width="80">

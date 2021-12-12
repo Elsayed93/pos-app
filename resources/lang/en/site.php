@@ -40,6 +40,8 @@ return [
     'profit' => 'Profit',
     'Products Number' => 'Products Number',
     'Related Products' => 'Related Products',
+    'category' => 'Category',
+
 
     'Select Category' => 'Select Category',
     'categories' => 'categories',

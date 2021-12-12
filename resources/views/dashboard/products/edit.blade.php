@@ -49,13 +49,17 @@
                     @csrf
                     @method('PUT')
                     <div class="card-body">
+
                         {{-- categories --}}
                         <div class="form-group">
                             <label for="categories">@lang('site.categories')</label>
-                            <select name="category_id" id="categories" class="form-control">
+                            <select name="category_id" id="categories" class="form-control"
+                                data-oldcategory="{{ old() ? old('category_id') : '' }}">
+                                {{-- <option value="{{ $product->category->id }}">{{ $product->category->name }}</option> --}}
                             </select>
-                            <input type="hidden" name="category_id" value="{{ $product->category_id }}">
                         </div>
+
+
 
                         @foreach (config('translatable.locales') as $locale)
                             {{-- name --}}
@@ -77,7 +81,7 @@
 
                         {{-- image --}}
                         <div class="form-group">
-                            <label for="exampleImage">@lang('site.Image')</label>
+                            <label for="exampleImage">@lang('site.image')</label>
                             <input type="file" class="form-control imgInp filestyle" id="exampleImage" name="image"
                                 accept="image/*">
                         </div>
@@ -114,7 +118,7 @@
 
 
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">@lang('site.Submit')</button>
+                            <button type="submit" class="btn btn-primary">@lang('site.update')</button>
                         </div>
                     </div>
                 </form>
@@ -133,21 +137,33 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            let category_id = $("input[name='category_id']").val();
-
             $.ajax({
-                url: "{{ route('dashboard.get.product.category') }}",
-                data: {
-                    category_id: category_id,
-                },
+                    url: "{{ route('dashboard.get.all.categories') }}",
 
-                success: function(data) {
-                    $('#categories').append($('<option>', {
-                        value: data.id,
-                        text: data.name
-                    }));
+                    success: function(data) {
+                        let old_category_id = $('#categories').data(
+                            'oldcategory'); // in case != '' >>> =1 : selected
+                        let product_category_id = "{{ $product->category->id }}";
+                        console.log('product', product_category_id);
+
+                        $.each(data, function(i, item) {
+
+                                if (old_category_id == item.id) {
+                                    $('#categories').append($('<option>').val(item.id).text(item.name)
+                                        .attr('selected', 'selected'));
+                                } else if (product_category_id == item.id) {
+
+                                    $('#categories').append( $('<option>').val(item.id).text(item
+                                        .name).attr('selected', 'selected'));
+
+                            } else {
+                                $('#categories').append($('<option>').val(item.id).text(item.name));
+
+                            }
+
+                        });
                 }
-            })
+            });
         });
     </script>
 @endpush

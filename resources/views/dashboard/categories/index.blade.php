@@ -104,7 +104,8 @@
                                                 <td>{{ $category->name }}</td>
                                                 <td>{{ $category->products()->count() }}</td>
                                                 <td>
-                                                    <a href="#" class="btn btn-info btn-sm">
+                                                    <a href="{{ route('dashboard.products.index', ['category_id' => $category->id]) }}"
+                                                        class="btn btn-info btn-sm">
                                                         @lang('site.Related Products')
                                                     </a>
                                                 </td>
