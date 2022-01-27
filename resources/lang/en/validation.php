@@ -166,6 +166,10 @@ return [
             'title' => 'English Title',
             'description' => 'English Description',
         ],
+
+        'phone.0' => 'phone',
+        'phone.1' => 'another phone',
+        
     ],
 
 ];

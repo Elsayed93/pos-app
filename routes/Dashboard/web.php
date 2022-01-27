@@ -23,6 +23,9 @@ Route::group(
 
             //products
             Route::resource('products', ProductController::class)->except('show');
+
+            // clients
+            Route::resource('clients', ClientController::class)->except('show');
         });
     }
 );

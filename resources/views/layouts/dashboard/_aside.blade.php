@@ -25,6 +25,16 @@
                 </a>
             </li>
 
+              {{-- clients --}}
+              @if (auth()->user()->isAbleTo('clients-read'))
+              <li>
+                  <a href="{{ route('dashboard.clients.index') }}">
+                      <i class="fa fa-th"></i>
+                      <span>@lang('site.clients')</span>
+                  </a>
+              </li>
+          @endif
+
 
             {{-- categories --}}
             @if (auth()->user()->isAbleTo('categories-read'))

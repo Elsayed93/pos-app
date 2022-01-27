@@ -12,7 +12,7 @@ return [
 
     'create' => 'create',
     'read' => 'read',
-    'update' => 'update',
+    'update' => 'Update',
     'delete' => 'Delete',
     'edit' => 'Edit',
 
@@ -53,4 +53,19 @@ return [
     'sale_price' => 'sale price',
     'stock' => 'stock',
     'product image' => 'product image',
+
+    'clients' => 'Clients',
+    'There is no clients.' => 'There is no clients.',
+    'Image' => 'Image',
+    'email' => 'Email',
+    'enter phone' => 'enter phone',
+    'enter address' => 'enter address',
+
+    'phone' => 'Phone',
+    'phone1' => 'phone1',
+    'enter phone1' => 'enter phone1',
+    'enter phone2' => 'enter phone2',
+
+    'phone2' => 'Another Phone (optional)',
+    'address' => 'Address'
 ];
