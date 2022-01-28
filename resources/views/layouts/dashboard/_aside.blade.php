@@ -25,15 +25,15 @@
                 </a>
             </li>
 
-              {{-- clients --}}
-              @if (auth()->user()->isAbleTo('clients-read'))
-              <li>
-                  <a href="{{ route('dashboard.clients.index') }}">
-                      <i class="fa fa-th"></i>
-                      <span>@lang('site.clients')</span>
-                  </a>
-              </li>
-          @endif
+            {{-- clients --}}
+            @if (auth()->user()->isAbleTo('clients-read'))
+                <li>
+                    <a href="{{ route('dashboard.clients.index') }}">
+                        <i class="fa fa-th"></i>
+                        <span>@lang('site.clients')</span>
+                    </a>
+                </li>
+            @endif
 
 
             {{-- categories --}}
@@ -52,6 +52,16 @@
                     <a href="{{ route('dashboard.products.index') }}">
                         <i class="fa fa-th"></i>
                         <span>@lang('products.products')</span>
+                    </a>
+                </li>
+            @endif
+
+            {{-- orders --}}
+            @if (auth()->user()->isAbleTo('orders-read'))
+                <li>
+                    <a href="{{ route('dashboard.orders.index') }}">
+                        <i class="fa fa-th"></i>
+                        <span>@lang('orders.orders')</span>
                     </a>
                 </li>
             @endif

@@ -33,7 +33,9 @@ return [
     'ar_name' => 'الإسم باللغة العربية',
     'en_name' => 'الإسم باللغة الإنجليزية',
     'profit' => 'الربح',
+    'products' => 'المنتجات',
     'Products Number' => 'عدد المنتجات',
+    'there is no any products' => 'لا يوجد أي منتجات',
     'Related Products' => 'المنتجات المرتبطة',
 
     'description' => 'الوصف',
@@ -66,6 +68,7 @@ return [
     'enter phone1' => 'قم بإدخال رقم الهاتف',
     'enter phone2' => 'قم بإدخال رقم الهاتف 2',
 
-    'address' => 'العنوان'
+    'address' => 'العنوان',
+    'There is no orders.' => 'لا يوجد طلبات.',
 
 ];

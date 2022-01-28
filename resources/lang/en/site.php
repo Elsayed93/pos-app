@@ -38,8 +38,10 @@ return [
     'en_description' => 'description in English',
     'enter description' => 'enter description',
     'profit' => 'Profit',
+    'products' => 'products',
     'Products Number' => 'Products Number',
     'Related Products' => 'Related Products',
+    'there is no any products' => 'there is no any products',
     'category' => 'Category',
 
 
@@ -67,5 +69,7 @@ return [
     'enter phone2' => 'enter phone2',
 
     'phone2' => 'Another Phone (optional)',
-    'address' => 'Address'
+    'address' => 'Address',
+    'There is no orders.' => 'There is no orders.',
+
 ];

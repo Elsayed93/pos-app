@@ -27,4 +27,10 @@ class Product extends Model implements TranslatableContract
 
         return round($profit_percentage, 3);
     }
+
+    // product orders
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_product', 'product_id', 'order_id');
+    }
 }

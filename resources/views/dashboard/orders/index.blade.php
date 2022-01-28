@@ -6,12 +6,12 @@
 
         <section class="content-header">
 
-            <h1>@lang('site.clients')</h1>
+            <h1>@lang('site.orders')</h1>
 
             <ol class="breadcrumb">
                 <li class="active"><i class="fa fa-dashboard"></i><a href="{{ route('dashboard.welcome') }}">
                         @lang('site.dashboard')</a></li>
-                <li class="active"><i class="fa fa-dashboard"></i> @lang('site.clients')</li>
+                <li class="active"><i class="fa fa-dashboard"></i> @lang('site.orders')</li>
             </ol>
         </section>
 
@@ -23,12 +23,12 @@
 
                     <div class="box-header with-border">
                         <h3 class="box-title mb-3">
-                            @lang('site.clients')
+                            @lang('site.orders')
                         </h3>
-                        <small class="totalNumbers">{{ $clients->total() }}</small>
+                        <small class="totalNumbers">{{ $orders->total() }}</small>
 
 
-                        <form action="{{ route('dashboard.clients.index') }}" method="GET" style="margin-top:20px;">
+                        <form action="{{ route('dashboard.orders.index') }}" method="GET" style="margin-top:20px;">
                             <div class="row mt-3">
                                 <div class="col-md-4">
                                     <input type="text" class="form-control" name="search"
@@ -42,9 +42,9 @@
                                         @lang('site.search')
                                     </button>
 
-                                    @if (auth()->user()->isAbleTo('clients-create'))
-                                        {{-- Create client --}}
-                                        <a href="{{ route('dashboard.clients.create') }}" class="btn btn-primary">
+                                    {{-- @if (auth()->user()->isAbleTo('orders-create'))
+                                     
+                                        <a href="{{ route('dashboard.orders.create') }}" class="btn btn-primary">
                                             <i class="fa fa-plus"></i>
                                             @lang('site.create')
                                         </a>
@@ -54,7 +54,7 @@
                                             <i class="fa fa-plus"></i>
                                             @lang('site.create')
                                         </a>
-                                    @endif
+                                    @endif --}}
 
                                 </div>
                             </div>
@@ -68,37 +68,26 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 10px">#</th>
-                                        <th>@lang('site.name')</th>
-                                        <th>@lang('site.phone')</th>
-                                        <th>@lang('site.address')</th>
+                                        <th>@lang('orders.code')</th>
+                                        <th>@lang('orders.client')</th>
+                                        <th>@lang('orders.details')</th>
                                         <th>@lang('site.action')</th>
                                     </tr>
                                 </thead>
-                            
                                 <tbody>
-                                    @if ($clients->count() > 0)
-                                        @foreach ($clients as $index => $client)
+                                    @if ($orders->count() > 0)
+                                        @foreach ($orders as $index => $order)
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
-                                                <td>{{ $client->name }}</td>
-                                                <td>{{ implode($client->phone, ' - ') }}</td>
+                                                <td>{{ $order->order_code }}</td>
+                                                <td>{{ $order->client->name }}</td>
                                                 <td>
-                                                    @if (auth()->user()->isAbleTo('orders-create'))
-                                                        <a href="{{ route('dashboard.orders.create', ['client_id' => $client->id]) }}"
-                                                            class="btn btn-primary">
-                                                            @lang('orders.Add Order')
-                                                        </a>
-                                                    @else
-                                                        <a href="#" class="btn btn-primary" disabled> @lang('orders.Add
-                                                            Order')</a>
-                                                    @endif
-
+                                                    <a href="">details</a>
                                                 </td>
-                                                <td>{{ $client->address }}</td>
 
                                                 <td>
-                                                    @if (auth()->user()->isAbleTo('clients-update'))
-                                                        <a href="{{ route('dashboard.clients.edit', $client->id) }}"
+                                                    @if (auth()->user()->isAbleTo('orders-update'))
+                                                        <a href="{{ route('dashboard.orders.edit', $order->id) }}"
                                                             class="btn btn-warning btn-sm" title="@lang('site.edit')">
                                                             @lang('site.edit')
                                                             <i class="fa fa-edit"></i>
@@ -113,10 +102,10 @@
                                                         </a>
 
                                                     @endif
-                                                    @if (auth()->user()->isAbleTo('clients-delete'))
+                                                    @if (auth()->user()->isAbleTo('orders-delete'))
 
                                                         <form
-                                                            action="{{ route('dashboard.clients.destroy', $client->id) }}"
+                                                            action="{{ route('dashboard.orders.destroy', $order->id) }}"
                                                             method="post" id="deleteForm" style="display: inline-block;">
                                                             @method('DELETE')
                                                             @csrf
@@ -139,13 +128,13 @@
                                             </tr>
                                         @endforeach
                                     @else
-                                        <td colspan="4" class="nodata">@lang('site.There is no clients.')</td>
+                                        <td colspan="4" class="nodata">@lang('site.There is no orders.')</td>
                                     @endif
 
                                 </tbody>
                             </table>
 
-                            {{ $clients->appends(request()->query())->links() }}
+                            {{ $orders->appends(request()->query())->links() }}
                         </div>
                         <!-- /.card-body -->
                     </div>

@@ -26,6 +26,9 @@ Route::group(
 
             // clients
             Route::resource('clients', ClientController::class)->except('show');
+
+            // orders
+            Route::resource('orders', OrderController::class);
         });
     }
 );

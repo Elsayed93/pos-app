@@ -18,4 +18,10 @@ class Client extends Model
     protected $casts = [
         'phone' => 'array',
     ];
+
+    // client orders
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'client_id');
+    }
 }
