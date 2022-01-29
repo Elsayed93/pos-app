@@ -53,7 +53,12 @@ return [
     'purchase_price' => 'سعر الشراء',
     'sale_price' => 'سعر البيع',
     'stock' => 'كمية المخزون',
+    'price' => 'السعر',
+    'add' => 'إضافة',
     'product image' => 'صورة المنتج',
+    'product'=>'المنتج',
+    'quantity'=>'الكمية',
+    'total' => 'الإجمالي',
 
     'clients' => 'العملاء',
     'There is no clients.' => 'لا يوجد عملاء.',
