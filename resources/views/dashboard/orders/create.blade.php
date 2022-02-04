@@ -52,7 +52,7 @@
                                             class="panel-collapse collapse">
 
                                             <div class="panel-body">
-                                                @if ($category->products->count() > 0)
+                                                @if ($category->products_count > 0)
 
                                                     <table class="table table-hover">
                                                         <tr>
@@ -107,9 +107,11 @@
                         </div><!-- end of box header -->
 
                         <div class="box-body">
-                            <form action="{{ route('dashboard.orders.store', $client->id) }}" method="post">
+                            <form action="{{ route('dashboard.orders.store', ['client_id' => $client->id]) }}"
+                                method="POST">
                                 @csrf
                                 @include('partials._errors')
+                                {{-- <input type="hidden" name="client_id" value="{{ $client->id }}"> --}}
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
@@ -138,12 +140,12 @@
 
                     </div><!-- end of box -->
 
-                    @if ($client->orders->count() > 0)
+                    @if ($client->orders_count > 0)
                         <div class="box box-primary">
 
                             <div class="box-header">
                                 <h3 class="box-title" style="margin-bottom: 10px">@lang('site.previous_orders')
-                                    <small>{{ $orders->total() }}</small>
+                                    <small class="totalNumbers">{{ $orders->total() }}</small>
                                 </h3>
                             </div><!-- end of box header -->
 

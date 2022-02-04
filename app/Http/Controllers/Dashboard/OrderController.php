@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderRequest;
 use App\Models\Category;
 use App\Models\Client;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -40,18 +43,22 @@ class OrderController extends Controller
      */
     public function create(Request $request)
     {
-        // dd($request->client_id);
-        if (auth()->user()->isAbleTo('clients-create')) {
+        if (auth()->user()->isAbleTo('orders-create')) {
 
-            $client = Client::select('id', 'name')
-                ->where('id', $request->client_id)
-                ->first();
+            $client = Client::select('id')
+                ->withCount('orders')
+                ->findOrFail($request->client_id);
 
             $categories = Category::select('id')
                 ->with('products:id,category_id,sale_price,stock')
+                ->withCount('products')
                 ->get();
-            //    dd($client);
-            return view('dashboard.orders.create', compact('client', 'categories'));
+
+            $orders = Order::select('id', 'created_at')
+                ->with('products:id')
+                ->latest()->paginate(5);
+
+            return view('dashboard.orders.create', compact('client', 'categories', 'orders'));
         } else {
             return redirect()->back()->with('error', __('site.Permission Denied'));
         }
@@ -63,10 +70,27 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
-        //
-        dd($request->all());
+        if (auth()->user()->isAbleTo('orders-create')) {
+
+            //  ceate order 
+            $order = Order::create([
+                'order_code' => rand(1, 100),
+                'client_id' => $request->client_id
+            ]);
+
+            // attach order products and update product stock
+            $orderProducts = $this->attachOrderProducts($request, $order->id);
+
+            if ($order &&  $orderProducts) {
+                return redirect()->route('dashboard.orders.index')->with('success', __('site.updated_successfully'));
+            } else {
+                return redirect()->back()->with('error', __('site.updated_failed'));
+            }
+        } else {
+            return redirect()->back()->with('error', __('site.Permission Denied'));
+        }
     }
 
     /**
@@ -112,5 +136,34 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         //
+    }
+
+    public function attachOrderProducts($request, $orderId)
+    {
+        foreach ($request->products as $product_id => $value) {
+
+            $product = Product::findOrFail($product_id);
+
+            if ($product->stock -  $value['quantity'] < 0) {
+                Order::findOrFail($orderId)->delete();
+                return redirect()->back()->with('error', __('orders.out of stock'));
+            }
+
+            // store in order_product
+            $order_product = DB::table('order_product')->insert([
+                'order_id' => $orderId,
+                'product_id' => $product_id,
+                'quantity' => $value['quantity'],
+            ]);
+
+            // update product stock
+            $product->update([
+                'stock' => $product->stock -  $value['quantity'], // 
+            ]);
+        }
+
+        if ($order_product && $product) {
+            return true;
+        }
     }
 }

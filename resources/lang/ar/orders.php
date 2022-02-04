@@ -6,4 +6,6 @@ return [
     'client' => 'العميل',
     'details' => 'تفاصيل الطلب',
     'Add Order' => 'إضافة طلب',
+    'out of stock' => 'الكمية غير كافية',
+
 ];

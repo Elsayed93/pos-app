@@ -49,9 +49,8 @@ $(document).ready(function () {
     $('body').on('keyup change', '.product-quantity', function() {
 
         let quantity = Number($(this).val()); //2
-        let unitPrice = parseFloat($(this).data('price')); //150
-        console.log({unitPrice});
-        console.log(unitPrice);
+        let unitPrice = parseFloat($(this).data('price').replace(/,/g, '')); //150
+
         $(this).closest('tr').find('.product-price').html($.number(quantity * unitPrice, 2));
         calculateTotal();
 
