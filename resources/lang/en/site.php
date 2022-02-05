@@ -83,4 +83,6 @@ return [
     'orders' => 'Orders',
     'Unknown Error' => 'Unknown Error',
 
+    'Show Products' => 'Show Products',
+
 ];

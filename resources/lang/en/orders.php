@@ -7,5 +7,6 @@ return [
     'details' => 'Order Details',
     'Add Order' => 'Add Order',
     'out of stock' => 'out of stock',
+    'created at' => 'Created at',
 
 ];

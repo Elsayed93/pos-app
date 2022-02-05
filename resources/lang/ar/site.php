@@ -82,5 +82,6 @@ return [
     'orders' => 'الطلبات',
 
     'Unknown Error' => 'خطأ غير معروف',
+    'Show Products' => 'المنتجات',
 
 ];

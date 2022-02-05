@@ -9,6 +9,7 @@ use App\Models\Client;
 use App\Models\Order;
 use App\Models\Product;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,17 +20,13 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        if (auth()->user()->isAbleTo('clients-read')) {
+        if (auth()->user()->isAbleTo('orders-read')) {
 
-            // $clients = Client::when($request->search, function ($query) use ($request) {
-            //     return $query->where('name', 'like', '%' . $request->search . '%')
-            //         ->orWhere('phone', 'like', '%' . $request->search . '%')
-            //         ->orWhere('address', 'like', '%' . $request->search . '%');
-            // })->latest()->paginate(5);
-
-            $orders = Order::latest()->paginate(5);
+            $orders = Order::whereHas('client', function (Builder  $query) use ($request) {
+                return $query->where('name', 'like', '%' . $request->search . '%');
+            })->with('client:id,name')->latest()->paginate(5);
 
             return view('dashboard.orders.index', compact('orders'));
         } else {
@@ -73,7 +70,10 @@ class OrderController extends Controller
      */
     public function store(OrderRequest $request)
     {
+        // dd($request->all());
         if (auth()->user()->isAbleTo('orders-create')) {
+            // need total_price 
+            // $this->calcTotalPric($request->products);
             //  ceate order 
             $order = Order::create([
                 'order_code' => rand(1, 100),
@@ -211,5 +211,22 @@ class OrderController extends Controller
         }
 
         return $prod ? true : false;
+    }
+
+    // get order products
+    public function getOrderProducts(Order $order)
+    {
+        $orderProducts = $order->products;
+        $orderTotalPrice = 0;
+
+        foreach ($orderProducts as $key => $product) {
+            $prodPrice = $product->sale_price;
+            $prodQuantity = $product->pivot->quantity;
+
+            $subTotPrice =  $prodPrice * $prodQuantity;
+            $orderTotalPrice += $subTotPrice;
+        }
+
+        return view('dashboard.orders._products', compact('orderTotalPrice', 'orderProducts'));
     }
 }

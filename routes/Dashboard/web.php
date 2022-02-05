@@ -29,6 +29,7 @@ Route::group(
 
             // orders
             Route::resource('orders', OrderController::class);
+            Route::get('orders/{order}/products', [App\Http\Controllers\Dashboard\OrderController::class, 'getOrderProducts'])->name('orders.products');
         });
     }
 );

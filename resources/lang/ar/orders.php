@@ -7,5 +7,6 @@ return [
     'details' => 'تفاصيل الطلب',
     'Add Order' => 'إضافة طلب',
     'out of stock' => 'الكمية غير كافية',
+    'created at' => 'أُنشيء في ',
 
 ];

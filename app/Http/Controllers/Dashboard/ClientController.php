@@ -136,7 +136,9 @@ class ClientController extends Controller
     public function destroy(Client $client)
     {
         if (auth()->user()->isAbleTo('clients-delete')) {
+            // $clientOrders = $client->withCount('orders')->first();
             $client->delete();
+            
             return redirect()->route('dashboard.clients.index')->with('success', __('site.deleted_successfully'));
         } else {
             return redirect()->back()->with('error', __('site.Permission Denied'));
