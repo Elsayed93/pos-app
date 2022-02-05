@@ -84,5 +84,6 @@ return [
     'Unknown Error' => 'Unknown Error',
 
     'Show Products' => 'Show Products',
+    'show' => 'show',
 
 ];

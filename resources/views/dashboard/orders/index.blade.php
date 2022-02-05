@@ -56,6 +56,7 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
+                                        <th>@lang('orders.code')</th>
                                         <th>@lang('orders.client')</th>
                                         <th>@lang('site.price')</th>
                                         {{-- <th>@lang('site.status')</th> --}}
@@ -68,19 +69,9 @@
                                     <tbody>
                                         @foreach ($orders as $order)
                                             <tr>
+                                                <td>{{ $order->order_code }}</td>
                                                 <td>{{ $order->client->name }}</td>
                                                 <td>{{ number_format($order->total_price, 2) }}</td>
-                                                {{-- <td> --}}
-                                                {{-- <button --}}
-                                                {{-- data-status="@lang('site.' . $order->status)" --}}
-                                                {{-- data-url="{{ route('dashboard.orders.update_status', $order->id) }}" --}}
-                                                {{-- data-method="put" --}}
-                                                {{-- data-available-status='["@lang('site.processing')", "@lang('site.finished') "]' --}}
-                                                {{-- class="order-status-btn btn {{ $order->status == 'processing' ? 'btn-warning' : 'btn-success disabled' }} btn-sm" --}}
-                                                {{-- > --}}
-                                                {{-- @lang('site.' . $order->status) --}}
-                                                {{-- </button> --}}
-                                                {{-- </td> --}}
                                                 <td>{{ $order->created_at->toFormattedDateString() }}</td>
                                                 <td>
                                                     <button class="btn btn-primary btn-sm order-products"
@@ -101,16 +92,19 @@
                                                     @if (auth()->user()->hasPermission('orders-delete'))
                                                         <form action="{{ route('dashboard.orders.destroy', $order->id) }}"
                                                             method="post" style="display: inline-block;">
-                                                            {{ csrf_field() }}
-                                                            {{ method_field('delete') }}
-                                                            <button type="submit" class="btn btn-danger btn-sm delete"><i
-                                                                    class="fa fa-trash"></i>
-                                                                @lang('site.delete')</button>
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger btn-sm delete">
+                                                                <i class="fa fa-trash"></i>
+                                                                @lang('site.delete')
+                                                            </button>
                                                         </form>
 
                                                     @else
-                                                        <a href="#" class="btn btn-danger btn-sm" disabled><i
-                                                                class="fa fa-trash"></i> @lang('site.delete')</a>
+                                                        <a href="#" class="btn btn-danger btn-sm" disabled>
+                                                            <i class="fa fa-trash"></i>
+                                                            @lang('site.delete')
+                                                        </a>
                                                     @endif
 
                                                 </td>

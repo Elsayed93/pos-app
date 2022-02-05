@@ -70,10 +70,8 @@ class OrderController extends Controller
      */
     public function store(OrderRequest $request)
     {
-        // dd($request->all());
         if (auth()->user()->isAbleTo('orders-create')) {
-            // need total_price 
-            // $this->calcTotalPric($request->products);
+
             //  ceate order 
             $order = Order::create([
                 'order_code' => rand(1, 100),
@@ -88,9 +86,9 @@ class OrderController extends Controller
             }
 
             if ($order) {
-                return redirect()->route('dashboard.orders.index')->with('success', __('site.updated_successfully'));
+                return redirect()->route('dashboard.orders.index')->with('success', __('site.added_successfully'));
             } else {
-                return redirect()->back()->with('error', __('site.updated_failed'));
+                return redirect()->back()->with('error', __('site.added_failed'));
             }
         } else {
             return redirect()->back()->with('error', __('site.Permission Denied'));
@@ -114,9 +112,27 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function edit(Order $order)
+    public function edit(Request $request, Order $order)
     {
-        //
+        if (auth()->user()->isAbleTo('orders-update')) {
+
+            $client = Client::select('id')
+                ->withCount('orders')
+                ->findOrFail($request->client);
+
+            $categories = Category::select('id')
+                ->with('products:id,category_id,sale_price,stock')
+                ->withCount('products')
+                ->get();
+
+            $orders  = Order::select('id', 'created_at')
+                ->with('products:id')
+                ->latest()->paginate(5);
+
+            return view('dashboard.orders.edit', compact('client', 'categories', 'order', 'orders'));
+        } else {
+            return redirect()->back()->with('error', __('site.Permission Denied'));
+        }
     }
 
     /**
@@ -126,9 +142,33 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(OrderRequest $request, Order $order)
     {
-        //
+        dd($request->all());
+
+        if (auth()->user()->isAbleTo('orders-create')) {
+
+            //  ceate order 
+            $order = Order::create([
+                'order_code' => rand(1, 100),
+                'client_id' => $request->client_id
+            ]);
+
+            // attach order products and update product stock
+            $orderProducts = $this->attachOrderProducts($request, $order->id);
+
+            if (!$orderProducts) {
+                return redirect()->back()->with('error', __('site.Unknown Error'));
+            }
+
+            if ($order) {
+                return redirect()->route('dashboard.orders.index')->with('success', __('site.updated_successfully'));
+            } else {
+                return redirect()->back()->with('error', __('site.updated_failed'));
+            }
+        } else {
+            return redirect()->back()->with('error', __('site.Permission Denied'));
+        }
     }
 
     /**
