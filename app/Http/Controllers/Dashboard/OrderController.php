@@ -96,17 +96,6 @@ class OrderController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Order  $order
@@ -144,22 +133,27 @@ class OrderController extends Controller
      */
     public function update(OrderRequest $request, Order $order)
     {
-        dd($request->all());
 
-        if (auth()->user()->isAbleTo('orders-create')) {
+        if (auth()->user()->isAbleTo('orders-update')) {
 
-            //  ceate order 
-            $order = Order::create([
-                'order_code' => rand(1, 100),
-                'client_id' => $request->client_id
-            ]);
+            $updateProductStorck = $this->updateProdStock($order);  
 
-            // attach order products and update product stock
-            $orderProducts = $this->attachOrderProducts($request, $order->id);
+            $detachOrderProducts =  $this->detachOrderProducts($order); // return number of rows have been removed
 
-            if (!$orderProducts) {
+            if ($detachOrderProducts <= 0) {
                 return redirect()->back()->with('error', __('site.Unknown Error'));
             }
+
+            $orderProducts = $this->attachOrderProducts($request, $order->id);
+
+            if (!$orderProducts || !$updateProductStorck) {
+                return redirect()->back()->with('error', __('site.Unknown Error'));
+            }
+
+            //  ceate order 
+            $order->update([
+                'order_code' => $request->order_code,
+            ]);
 
             if ($order) {
                 return redirect()->route('dashboard.orders.index')->with('success', __('site.updated_successfully'));
@@ -204,8 +198,9 @@ class OrderController extends Controller
     }
 
     // when create order >> attach products to this order in order_product table
-    public function attachOrderProducts($request, $orderId)
+    private function attachOrderProducts($request, $orderId)
     {
+
         foreach ($request->products as $product_id => $value) {
 
             $product = Product::findOrFail($product_id);
@@ -237,7 +232,7 @@ class OrderController extends Controller
 
 
     // update product stock when delete order
-    public function updateProdStock($order)
+    private function updateProdStock($order)
     {
         foreach ($order->products as $product) {
 
@@ -268,5 +263,10 @@ class OrderController extends Controller
         }
 
         return view('dashboard.orders._products', compact('orderTotalPrice', 'orderProducts'));
+    }
+
+    private function detachOrderProducts($order)
+    {
+        return $order->products()->detach();
     }
 }

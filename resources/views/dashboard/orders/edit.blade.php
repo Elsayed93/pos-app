@@ -118,7 +118,10 @@
                                 method="post">
                                 @csrf
                                 @method('PUT')
-
+                                <div class="form-group">
+                                    <label for="">order code</label>
+                                    <input type="text" name="order_code" id="" class="form-control" value="{{ $order->order_code }}">
+                                </div>
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
@@ -155,8 +158,10 @@
                                 <h4>@lang('site.total') : <span
                                         class="total-price">{{ number_format($order->total_price, 2) }}</span></h4>
 
-                                <button class="btn btn-primary btn-block" id="form-btn"><i class="fa fa-edit"></i>
-                                    @lang('site.edit_order')</button>
+                                <button class="btn btn-primary btn-block" id="form-btn">
+                                    <i class="fa fa-edit"></i>
+                                    @lang('site.edit order')
+                                </button>
 
                             </form><!-- end of form -->
 

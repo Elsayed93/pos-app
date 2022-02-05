@@ -28,7 +28,7 @@ Route::group(
             Route::resource('clients', ClientController::class)->except('show');
 
             // orders
-            Route::resource('orders', OrderController::class);
+            Route::resource('orders', OrderController::class)->except('show');
             Route::get('orders/{order}/products', [App\Http\Controllers\Dashboard\OrderController::class, 'getOrderProducts'])->name('orders.products');
         });
     }
