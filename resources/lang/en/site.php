@@ -8,6 +8,10 @@ return [
     'updated_successfully' => 'updated successfully',
     'deleted_successfully' => 'delete successfully',
 
+    'added_failed' => 'Added Failed',
+    'updated_failed' => 'Updated Failed',
+    'deleted_failed' => 'Deleted Failed',
+
     'Submit' => 'Submit',
 
     'create' => 'create',
@@ -77,5 +81,6 @@ return [
     'address' => 'Address',
     'There is no orders.' => 'There is no orders.',
     'orders' => 'Orders',
+    'Unknown Error' => 'Unknown Error',
 
 ];

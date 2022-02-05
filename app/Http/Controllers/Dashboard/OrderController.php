@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Client;
 use App\Models\Order;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -82,7 +83,11 @@ class OrderController extends Controller
             // attach order products and update product stock
             $orderProducts = $this->attachOrderProducts($request, $order->id);
 
-            if ($order &&  $orderProducts) {
+            if (!$orderProducts) {
+                return redirect()->back()->with('error', __('site.Unknown Error'));
+            }
+
+            if ($order) {
                 return redirect()->route('dashboard.orders.index')->with('success', __('site.updated_successfully'));
             } else {
                 return redirect()->back()->with('error', __('site.updated_failed'));
@@ -137,13 +142,17 @@ class OrderController extends Controller
 
         if (auth()->user()->isAbleTo('orders-delete')) {
 
-
+            // update product stock
             $prodStock = $this->updateProdStock($order);
 
+            if (!$prodStock) {
+                return redirect()->back()->with('error', __('site.Unknown Error'));
+            }
+
+            // delete order and detach its products automatically by DB
             $order->findOrFail($order->id)->delete();
 
-
-            if ($order && $prodStock) {
+            if ($order) {
                 return redirect()->route('dashboard.orders.index')->with('success', __('site.deleted_successfully'));
             } else {
                 return redirect()->back()->with('error', __('site.deleted_failed'));
@@ -171,6 +180,8 @@ class OrderController extends Controller
                 'order_id' => $orderId,
                 'product_id' => $product_id,
                 'quantity' => $value['quantity'],
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
 
             // update product stock
@@ -200,6 +211,5 @@ class OrderController extends Controller
         }
 
         return $prod ? true : false;
-       
     }
 }

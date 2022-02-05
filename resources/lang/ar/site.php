@@ -8,6 +8,10 @@ return [
     'updated_successfully' => 'تم تعديل البيانات بنجاح',
     'deleted_successfully' => 'تم مسح البيانات بنجاح',
     //
+    'added_failed' => 'فشلت عملية الإضافة',
+    'updated_failed' => 'فشلت عملية التعديل',
+    'deleted_failed' => 'فشلت عملية المسح',
+
     'Submit' => 'حفظ',
 
     'edit' => 'تعديل',
@@ -76,5 +80,7 @@ return [
     'address' => 'العنوان',
     'There is no orders.' => 'لا يوجد طلبات.',
     'orders' => 'الطلبات',
+
+    'Unknown Error' => 'خطأ غير معروف',
 
 ];
