@@ -76,5 +76,6 @@ return [
     'phone2' => 'Another Phone (optional)',
     'address' => 'Address',
     'There is no orders.' => 'There is no orders.',
+    'orders' => 'Orders',
 
 ];

@@ -75,5 +75,6 @@ return [
 
     'address' => 'العنوان',
     'There is no orders.' => 'لا يوجد طلبات.',
+    'orders' => 'الطلبات',
 
 ];

@@ -73,7 +73,6 @@ class OrderController extends Controller
     public function store(OrderRequest $request)
     {
         if (auth()->user()->isAbleTo('orders-create')) {
-
             //  ceate order 
             $order = Order::create([
                 'order_code' => rand(1, 100),
@@ -135,9 +134,27 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+
+        if (auth()->user()->isAbleTo('orders-delete')) {
+
+
+            $prodStock = $this->updateProdStock($order);
+
+            $order->findOrFail($order->id)->delete();
+
+
+            if ($order && $prodStock) {
+                return redirect()->route('dashboard.orders.index')->with('success', __('site.deleted_successfully'));
+            } else {
+                return redirect()->back()->with('error', __('site.deleted_failed'));
+            }
+            // 
+        } else {
+            return redirect()->back()->with('error', __('site.Permission Denied'));
+        }
     }
 
+    // when create order >> attach products to this order in order_product table
     public function attachOrderProducts($request, $orderId)
     {
         foreach ($request->products as $product_id => $value) {
@@ -165,5 +182,24 @@ class OrderController extends Controller
         if ($order_product && $product) {
             return true;
         }
+    }
+
+
+    // update product stock when delete order
+    public function updateProdStock($order)
+    {
+        foreach ($order->products as $product) {
+
+            // get product by $product->id
+            $prod = Product::select('id')->findOrFail($product->id);
+
+            // update product stock
+            $prod->update([
+                'stock' => $product->stock + $product->pivot->quantity,
+            ]);
+        }
+
+        return $prod ? true : false;
+       
     }
 }
