@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,9 +23,7 @@ Route::group(
         'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth']
     ],
     function () {
-        Route::get('/', function () {
-            return view('dashboard.welcome');
-        });
+        Route::get('/', [HomeController::class, 'index']);
     }
 );
 

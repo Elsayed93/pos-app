@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(
@@ -9,7 +10,9 @@ Route::group(
     ],
     function () {
         Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
-            Route::view('/home', 'dashboard.welcome')->name('welcome');
+
+            Route::get('/home', [HomeController::class, 'index'])->name('welcome');
+            // Route::view('/home', 'dashboard.welcome')->name('welcome');
 
             // users
             Route::resource('users', UserController::class)->except('show');
