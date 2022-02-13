@@ -82,7 +82,9 @@ $(document).ready(function () {
     //print order
     $(document).on('click', '.print-btn', function() {
 
-        $('#print-area').printThis();
+        $('#print-area').printThis({
+            header: "<h1>POS Project</h1>"
+        });
 
     });//end of click function
 

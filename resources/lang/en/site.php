@@ -86,5 +86,5 @@ return [
     'Show Products' => 'Show Products',
     'show' => 'show',
     'edit order' => 'Edit Order',
-
+    'print' => 'Print',
 ];

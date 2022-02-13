@@ -60,8 +60,8 @@ return [
     'price' => 'السعر',
     'add' => 'إضافة',
     'product image' => 'صورة المنتج',
-    'product'=>'المنتج',
-    'quantity'=>'الكمية',
+    'product' => 'المنتج',
+    'quantity' => 'الكمية',
     'total' => 'الإجمالي',
 
     'clients' => 'العملاء',
@@ -85,5 +85,6 @@ return [
     'Show Products' => 'المنتجات',
     'show' => 'عرض',
     'edit order' => 'تعديل الطلب',
+    'print' => 'طباعة',
 
 ];
