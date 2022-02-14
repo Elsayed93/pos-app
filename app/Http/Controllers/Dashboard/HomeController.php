@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -27,7 +28,6 @@ class HomeController extends Controller
 
             // products 
             $productsCount = Product::count();
-            // dd($productsCount);
 
             // clients 
             $clientsCount = Client::count();
@@ -35,7 +35,14 @@ class HomeController extends Controller
             // orders
             $ordersCount = Order::count();
 
-            return view('dashboard.welcome', compact( 'productsCount', 'clientsCount', 'ordersCount'));
+            $total_orders_statistics = DB::table('orders')
+                ->selectRaw('YEAR(created_at) AS year')
+                ->selectRaw('MONTH(created_at) AS month')
+                ->selectRaw('sum(total_price) AS total_price')
+                ->groupBy('month')
+                ->get();
+
+            return view('dashboard.welcome', compact('productsCount', 'clientsCount', 'ordersCount', 'total_orders_statistics'));
         } else {
             return redirect()->back()->with('error', __('site.Permission Denied'));
         }

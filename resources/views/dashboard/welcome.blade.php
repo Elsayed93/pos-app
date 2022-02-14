@@ -67,6 +67,18 @@
                 </div>
             </div>
 
+
+            <div class="box box-solid">
+                <div class="box-header">
+                    <h3 class="box-title">Sales Graph</h3>
+                </div>
+                {{-- chart --}}
+                <div class="box-body border-radius-none">
+                    <div class="chart" id="line-chart" style="height: 250px;"></div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+
         </section><!-- end of content -->
 
     </div><!-- end of content wrapper -->
@@ -75,6 +87,28 @@
 @endsection
 
 @push('scripts')
-
+    <script>
+        //line chart
+        let line = new Morris.Line({
+            element: 'line-chart',
+            resize: true,
+            data: [
+                @foreach ($total_orders_statistics as $data)
+                    {
+                    ym: "{{ $data->year }}-{{ $data->month }}", sum: "{{ $data->total_price }}"
+                    },
+                @endforeach
+            ],
+            xkey: 'ym',
+            ykeys: ['sum'],
+            labels: ["@lang('site.total')"],
+            lineWidth: 2,
+            hideHover: 'auto',
+            gridStrokeWidth: 0.4,
+            pointSize: 4,
+            gridTextFamily: 'Open Sans',
+            gridTextSize: 10
+        });
+    </script>
 
 @endpush
